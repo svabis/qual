@@ -45,7 +45,10 @@ class Command(BaseCommand):
 
        # If Camera AI enabled
         if cam.kamera_ai == True and len(os.listdir(path)) > 0:
+            print("AI started")
             os.system("/home/svabis/web/utils/ai/runner.sh") # > /dev/null 2>&1 || true")
+            print("AI ended")
+#        print cam.kamera_ai
 
         try:
      # Fill picture Directory list array
@@ -57,10 +60,8 @@ class Command(BaseCommand):
                  tz = pytz.timezone('EET')       # Timezone info (image creation time does not include)
                  create_date = c_date.replace(tzinfo=tz) # - datetime.timedelta( hours = dst( c_date.replace(tzinfo=tz) ))    # repalcing timezone info
 
-
-        # IF FILE IS BEING CREATED
-                 timeDiff = ( datetime.datetime.now() - c_date ).total_seconds()
-                 if timeDiff > 1:
+                # Test "If Created" is not needed in e_mail only case
+                 if True:
                      try:
                             obj = Bilde.objects.get(bilde_nos = filename, bilde_kamera_id = cam)   # object exist do nothing
 #                            print 'object exist:'
@@ -93,25 +94,6 @@ class Command(BaseCommand):
                                 except:
                                     print 'THUMB ERR 2'
                                     pass
-        # GET FILE CREATION TIME AND CONVERT INTO TEXT
-#                            time = stat
-#                            text_1 = str(datetime.datetime.fromtimestamp( time.st_ctime ).strftime('%d/%m/%Y'))
-#                            text_2 = str(datetime.datetime.fromtimestamp( time.st_ctime ).strftime('%H:%M'))
-
-         # SET COLOR ODD/PAIR DAYS DIFFERENT
-#                            col_date = int(datetime.datetime.fromtimestamp( time.st_ctime ).strftime('%d'))
-#                            if col_date % 2 == 0:
-#                                col_fill = (255, 255, 179)
-#                            else:
-#                                col_fill = (204, 255, 153)
-#                            col_line = (0, 0, 0)
-
-        # DRAW RECTANGLE AND TEXT ON thumbnail
-#                            draw = ImageDraw.Draw(im)
-#                            draw.rectangle([(130, 0), (199, 25)], fill = col_fill, outline = col_line )
-#                            draw.text((135, 2), text_1, fill = col_line, font = None, anchor = None)
-#                            draw.text((165, 13), text_2, fill = col_line, font = None, anchor = None)
-#                            del draw
 
         # SAVE TEMPORARY thumbnail FILE FOR UPLOAD TO /media/thumb/
                             im.save( '/www/kuvalda/misc/thumb.jpg', "JPEG")
@@ -123,24 +105,6 @@ class Command(BaseCommand):
                             obj.save()      # save new object Bilde into database
 #                            print obj.bilde_bilde
 #                            print obj.bilde_thumb
-
-        # Remove / from .tar filename
-#                            tar_name = str(cam.kamera_img_dir) # .tar filename
-
-#                            if len(tar_name.split('/')) > 1:
-#                                tar_name = tar_name.split('/')[0] + tar_name.split('/')[1] + '.tar'
-#                            else:
-#                                tar_name = tar_name + '.tar'
-
-        # Check for Backup file (if needed create one) and append file to the backup file
-#                            back_up_path = '/home/svabis/TrailCamPhoto/'
-#                            if os.path.isfile(back_up_path + tar_name) == True: # BackUp File Exist
-#                                comand = 'tar --update -f ' + back_up_path + tar_name + ' ' + infile.replace(" ", "\ ")
-#                            else: # BackUp File does not exist (create) and append ile
-#                                comand = 'tar -c -f ' + back_up_path + tar_name + ' ' + infile.replace(" ", "\ ")
-
-                           # Append Source File to .tar
-#                            os.system(comand + ' &> /dev/null') # disable output from bash command
 
                            # SET OWNER AND GROUP FOR IMAGE FILES IN /media/ FOLDER
                             os.system('sudo chown www-data:varwwwusers /www/kuvalda/media/' + str(obj.bilde_bilde))

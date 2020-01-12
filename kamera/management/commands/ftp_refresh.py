@@ -46,7 +46,6 @@ class Command(BaseCommand):
        # SKIP ALL E-MAIL TRIGGERED CAMERAS
         if cam.kamera_email != "":
             continue
-        print cam
 
         try:
      # Fill picture Directory list array
