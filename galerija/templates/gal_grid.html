@@ -1,0 +1,42 @@
+{% extends 'gal_paginator.html' %}
+{% load staticfiles %}
+{% load tz %}
+
+{% block grid %}
+{% if not images%}<center><h4>Pagaidām Galerijā nav ievietotu attēlu...</h4></center>{% else %}
+
+<style>
+p{ position:absolute; width:100%; height:100%; top:0; left: 0; z-index: 0; background-image: url( {% static 'empty.png' %} );}
+</style>
+
+<script>
+function c() {
+  var name = "page_location"; var decodedCookie = decodeURIComponent(document.cookie); var ca = decodedCookie.split(';');
+  for(var i = 0; ca.length>i; i++) { var c = ca[i]; while (c.charAt(0) == ' ') { c = c.substring(1); }
+  if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); } } return "";
+}
+
+var url; var idleTime = 0;
+$(document).ready(function () {
+  url = c(); url = url.replace("=", ""); url = url.replace('"',""); url = url.replace('"',"");
+  var idleInterval = setInterval(timerIncrement, 60000);
+  $(this).mousemove(function (e) { idleTime = 0; }); $(this).keypress(function (e) { idleTime = 0; });
+});
+
+function timerIncrement() { idleTime = idleTime + 1; if (idleTime > 1) { if (url != "") { window.location.href = url; } }}
+</script>
+
+<div id="container" onmousedown="return false">
+{% for img in images %}
+<div id="grid_img" class="text-center">
+ <div class="datebox">
+   <p class="datebox_text">{{ img.bilde_datums|date:"d/m"}}<br>{{ img.bilde_datums|date:"H:i"}}</p>
+ </div>
+ <a href="/gallery/{{ paginator.active_page }}/{{ img.id }}/"><p></p></a>
+ <img src="{{ img.bilde_thumb.url }}">
+{# <a href="#" id="like_button"></a> #}
+</div>
+{% endfor %}
+</div>
+
+{% endif %}{% endblock %}

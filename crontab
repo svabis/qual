@@ -1,0 +1,63 @@
+# /etc/crontab: system-wide crontab
+# Unlike any other crontab you don't have to run the `crontab'
+# command to install the new version when you edit this file
+# and files in /etc/cron.d. These files also have username fields,
+# that none of the other crontabs do.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# m h dom mon dow user	command
+17 *	* * *	root    cd / && run-parts --report /etc/cron.hourly
+25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6	* * 7	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+
+# "> /dev/null 2>&1 || true" <-- nesūta reportu par attiecīgo tasku uz root@kuvalda.lv
+0 10	* * *	root	/home/janis/ipban.py > /dev/null 2>&1 || true
+
+
+# At Reboot restore iptables
+@reboot root /sbin/iptables-restore < /home/janis/iptablessrc > /dev/null 2>&1 || true
+@reboot root /home/janis/ipban.py > /dev/null 2>&1 || true
+@reboot root service fail2ban restart > /dev/null 2>&1 || true
+
+# ============================== CONTAINER ==============================
+@reboot	svabis	/home/svabis/web/utils/cont_search/cont.py
+@reboot	root	/home/svabis/web/utils/pdf_mail/pdf_cont.py
+@reboot svabis  /home/svabis/web/utils/pin_submit/pin_contr.py
+
+@reboot svabis	echo "" > /home/svabis/geckodriver.log
+@reboot svabis	echo "" > /home/svabis/web/geckodriver.log
+@reboot svabis	echo "" > /home/svabis/web/utils/pin_submit/geckodriver.log
+
+# ============================= DAILY REBOOT ============================
+10 0	* * *	root	reboot
+
+
+# ====================== WEEKLY ROOT MAIL CLEARING ======================
+0 1	* * 7	root	rm /var/mail/vhosts/kuvalda.lv/root/new/*
+
+#*/5 *	* * *	svabis	/home/svabis/netwatch.sh
+
+# ============================= KUVALDA.lv ==============================
+
+# At Reboot afrer minute run mail script
+#@reboot	root	/www/kuvalda/utils/mail_local.py
+#@reboot	root	/www/kuvalda/utils/mail_imap.py
+
+# Every 1 minutes test if ^^^ is DEAD --> run it again...
+*/1 *	* * *	root	/www/kuvalda/utils/mail_imap_restart.py
+*/1 *	* * *	root	/www/kuvalda/utils/mail_local_restart.py
+
+# refresh images (FTP does not have a triger)
+*/3 *	* * *	root	/www/kuvalda/utils/img_refresh.py
+
+# empty API and LV directories - OFF
+#0 0	* * *	root	/www/kuvalda/utils/clear_folders.sh > /dev/null 2>&1 || true
+
+# Rename 100_0001.JPG to 100_0001_jks.jpg
+0 0	* * 1	root	python /www/kuvalda/manage.py re_img
+
+# set ownership of /www/kuvalda/media files
+*/1 0  * * *   root    chown www-data:varwwwusers -R /www/kuvalda/media/

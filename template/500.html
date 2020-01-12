@@ -1,0 +1,78 @@
+{% load staticfiles %}{% load tz %}
+<!DOCTYPE html>
+<html lang="LV-LV">
+<head>
+<title>{{ title }}</title>
+ <meta charset="UTF-8">
+ <meta name="description" content="Medības, medību kameras, trail camera" />
+ <meta name="keywords" content="Medības, medību kameras, trail camera" />
+ <meta name="author" content="Trailcamphoto team" />
+ <meta name="robots" content="index, follow" />
+
+ <meta property="og:title" content="{{ title }}" />
+ <meta property="og:description" content="Medības, Medību kameras, Mednieku forums, Automatizētā zvēru fotogrāfēšana, Meža zvēru attēlu galerija" />
+ <meta property="og:site_name" content="{{ full_domain }}" />
+ <meta property="og:type" content="website" />
+ <meta property="og:image" content="http://{{ full_domain|lower }}{% static 'logo.JPG' %}" />
+ <meta property="og:locale" content="en_US" />
+ <meta property="og:url" content="http://{{ full_domain|lower }}/" />
+
+ <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+
+ <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+ <script src="{% static 'js/bootstrap.js' %}"></script>
+<style>
+body{ -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+.navbar-inverse { margin-left: 130px; margin-right: 130px; }
+
+/*.navbar-logo { background-image: url('{% static 'logo_sm_tp.png' %}'); width: 100px; height: 75px; background-size: cover; */
+.navbar-logo { background-image: url('{% static 'logo_sm_tp.png' %}'); width: 100px; height: 75px; background-size: cover;
+background-position: center center; background-repeat: no-repeat; position: absolute; top: 5px; left: 15px; z-index: 1051; }
+
+.navbar-logo2 { background-image: url('{% static 'logo_sm_tp.png' %}'); width: 100px; height: 75px; background-size: cover;
+background-position: center center; background-repeat: no-repeat; position: absolute; top: 5px; right: 15px; z-index: 1051; }
+
+#container {
+  display: flex;  display: -webkit-flex; /* Safari 8 */
+  flex-wrap: wrap;  -webkit-flex-wrap: wrap; /* Safari 8 */
+  justify-content: center;  -webkit-justify-content: center; /* Safari 8 */
+}
+</style>
+</head>
+<body>
+<a class="navbar-logo" href="/"></a>
+<a class="navbar-logo2" href="/"></a>
+<nav class="navbar-xs navbar-inverse">
+<div class="container-fluid">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topNavbar" aria-expanded="false">
+ <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+</div>
+<div class="collapse navbar-collapse" id="topNavbar">
+ <ul class="nav navbar-nav navbar-right" style="padding-right: 100px;">
+  <li><a href="http://forum.kuvalda.lv/"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> &nbsp;Forum</a></li>
+  <li><a href="http://82.196.7.52/"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> &nbsp;Shop</a></li>
+  <li class="active"><a href="/"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> &nbsp;Media</a></li>
+ </ul>
+</div>
+</div>
+</nav>
+<nav class="navbar-xs navbar-inverse" style="padding-top: 5px; padding-bottom: 5px; background-color: #aaa;">
+ <div class="container-fluid">
+  <strong>Servera kļūda</strong>
+ </div>
+</nav>
+<div class="container-fluid" style="margin-top: 10px;"></div>
+
+<div class="container">
+ <h2>Atvainojiet ir radusies kaut kāda veida kļūda mūsu pusē.<br>Centīsimies to novērst jau tuvākajā laikā...</h2>
+</div>
+</div>
+</body>
+</html>
+
+

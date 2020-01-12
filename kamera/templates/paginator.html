@@ -1,0 +1,33 @@
+{% extends 'head.html' %}
+{% load staticfiles %}
+{% block paginator %}
+{% if images %}
+{% if paginator.visible %}
+<div class="container"><center><ul class="pagination">
+{% if paginator.big %}{% if paginator.active_page == 1 %}<li class="disabled"><a href="#">&laquo;&laquo;</a></li>{% else %}<li><a href="/cam/grid/{{ active_tab }}/1/">&laquo;&laquo;</a></li>{% endif %}{% endif %}
+{% if paginator.active_page == 1 %}<li class="disabled"><a href="#">&laquo;</a></li>{% else %}<li><a href="/cam/grid/{{ active_tab }}/{{ paginator.active_page|add:"-1" }}/">&laquo;</a></li>{% endif %}
+ {% for page in paginator.pages %}
+ {% if page == 0 %}<li class="disabled"><a href="/cam/grid/{{ active_tab }}/{{ paginator.active_page }}/">...</a></li>
+ {% elif paginator.active_page == page %}<li class="active"><a href="/cam/grid/{{ active_tab }}/{{ page }}/">{{ page }}</a></li>
+ {% else %}<li><a href="/cam/grid/{{ active_tab }}/{{ page }}/">{{ page }}</a></li>{% endif %}{% endfor %}
+{% if paginator.active_page == paginator.pagecount %}<li class="disabled"><a href="#">&raquo;</a></li>{% else %}<li><a href="/cam/grid/{{ active_tab }}/{{ paginator.active_page|add:"1" }}/">&raquo;</a></li>{% endif %}
+{% if paginator.big %}{% if paginator.active_page == paginator.pagecount %}<li class="disabled"><a href="#">&raquo;&raquo;</a></li>{% else %}<li><a href="/cam/grid/{{ active_tab }}/{{ paginator.pagecount }}/">&raquo;&raquo;</a></li>{% endif %}{% endif %}
+</ul></center></div>
+{% else %}
+<div class="container-fluid" style="margin-top: 10px;"></div>
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block javascript %}{% if images %}<script>
+document.onkeydown = function(evt) { evt = evt || window.event; switch (evt.keyCode) {
+ case 37: if ({{ paginator.active_page}} > 1) {
+  window.location.href = "/cam/grid/{{ active_tab }}/{{ paginator.active_page|add:"-1" }}/"; } break;
+ case 39: if ({{ paginator.active_page }} < {{ paginator.pagecount }}) {
+  window.location.href = "/cam/grid/{{ active_tab }}/{{ paginator.active_page|add:"1" }}/"; } break; }};
+</script>{% endif %}{% endblock %}
+
+{% block style %}
+.pagination { margin-top: 10px; margin-bottom: 5px; }
+ul.pagination li a:hover:not(.active) {background-color: #ddd;}
+{% endblock %}

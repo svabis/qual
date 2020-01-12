@@ -1,0 +1,131 @@
+{% load staticfiles %}{% load tz %}
+<!DOCTYPE html>
+<html lang="LV-LV">
+<head>
+<title>{{ title }}</title>
+ <meta charset="UTF-8">
+ <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+ <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <script src="{% static 'js/bootstrap.js' %}"></script>
+ <script src="{% static 'js/moment.js' %}"></script>
+<body>
+
+<script>
+var resultCount = 0;
+var progressbar = 0;
+var items = [];
+var lastSearch = [];
+
+function runProgress() { progressbar = setInterval( function(){ progress() }, 2000 ); }
+
+function getJson() {
+  $.post( "http://www.kuvalda.lv/container.json", new Date(), function(data, textStatus ) {
+    $.each(data, function(index, element) {
+      lastSearch.push( element );
+    });
+    $("#searchData").append( "<b>kompānija:</b> " + lastSearch[0] + "<br><b>konteineri:</b><br>" + lastSearch[1] + "<br><b>Sākts:</b> " + lastSearch[2] + "<br>");
+  }, "json");
+}
+
+function progress() { 
+  $.post( "http://www.kuvalda.lv/progress.json", new Date(), function(data, textStatus ) {
+    $.each( data, function( key, val ) {
+      $("#progressBar").html( val + "%" ); $("#progressBar").css("width", val + "%");
+      items = []; var temp = resultCount;
+        $.post( "http://www.kuvalda.lv/results.json", new Date(), function(data, textStatus ) {
+          data.forEach(function(el) {
+            resultCount++;
+            items.push( "<tr><td>" + el[0] + "</td><td>" + el[1] + "</td><td>" + el[2] + "</td><td>" + el[3] + "</td><td>" + el[4] + "</td><td>" + el[5] + "</td><td>" + el[6] + "</td></tr>" );
+        }, "json");
+        if ( temp != resultCount ) { $("#resultTable").empty(); $("#resultTable").append( items ); }
+      });
+      if (val == 100) { clearInterval(progressbar); $("#submitSearch").removeAttr('disabled'); }
+    });
+  }, "json");
+}
+
+$(document).ready(function(){
+  getJson(); runProgress(); if ( $("#progressBar").css("width") != 100 ) { $("#submitSearch").prop('disabled', 'disabled'); }
+  $("#submitSearch").click(function(){
+    $("#searchData").empty(); 
+    $.post("http://www.kuvalda.lv/container.php", {
+      company: $("input[name=comp]:checked", "#myForm").val(), data: $("#search").val(), date: moment().format('YYYY-MM-DD HH:mm:ss') },
+        function(data,status){
+          $("#searchData").append( "<b>kompānija:</b> " +
+          $("input[name=comp]:checked", "#myForm").val() + "<br><b>konteineri:</b><br>" +
+          $("#search").val() + "<br><b>Sākts:</b> " + moment().format('YYYY-MM-DD HH:mm') +"<br>");
+    });
+    $("#submitSearch").prop('disabled', 'disabled'); $("#progressBar").html( "0%" ); $("#progressBar").css("width", "0%"); $("#resultTable").empty();
+    setTimeout( function(){ runProgress() }, 5000 );
+  });
+
+  $("#stopSearch").click(function(){ clearInterval(progressbar); $("#submitSearch").removeAttr('disabled'); });
+
+  $("#searchRestart").click(function(){
+    $("#searchData").empty(); 
+    $.post("http://www.kuvalda.lv/container.php", {
+      company: lastSearch[0], data: lastSearch[1], date: moment().format('YYYY-MM-DD HH:mm:ss') },
+        function(data,status){
+          $("#searchData").append( "<b>kompānija:</b> " + lastSearch[0] + "<br><b>konteineri:</b><br>" +
+          lastSearch[1] + "<br><b>Sākts:</b> " + moment().format('YYYY-MM-DD HH:mm') +"<br>");
+    });
+    $("#submitSearch").prop('disabled', 'disabled'); $("#progressBar").html( "0%" ); $("#progressBar").css("width", "0%"); $("#resultTable").empty();
+    setTimeout( function(){ runProgress() }, 5000 );
+  });
+});
+</script>
+
+<form id="myForm">
+  <div class="form-group">{% csrf_token %}
+    <input type="text" name="search" id="search" class="form-control" autofocus="autofocus">
+  </div>
+<div class="container">
+  <div class="form-group">
+    <label><input type="radio" name="comp" value="cma"> CMA</label><br>
+    <label><input type="radio" name="comp" value="hapag"> Hapag-Lloyd</label><br>
+    <label><input type="radio" name="comp" value="maersk"> Maersk</label><br>
+    <label><input type="radio" name="comp" value="msc"> MSC</label><br>
+    <label><input type="radio" name="comp" value="one"> ONE</label><br>
+    <br>
+    <input class="btn btn-success" id="submitSearch" value="SEARCH" style="border: solid black 1px;">
+    <input class="btn btn-danger" id="stopSearch" value="STOP SEARCH" style="border: solid black 1px;">
+    <input class="btn btn-warning pull-right" id="searchRestart" value="RESTART LAST SEARCH" style="border: solid black 1px;">
+  </div>
+ </form>
+</div>
+
+<div id="searchData" class="container-fluid" style="border: solid black 1px;"></div>
+
+<div class="progress"><div id="progressBar" class="progress-bar" role="progressbar" style="width:0%">0%</div></div>
+
+<div class="container">
+<table class="table table-hover table-striped table-condensed">
+  <thead><tr>
+    <th>Container</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Ship</th>
+    <th>Voyage</th>
+    <th>Terminal/Location</th>
+    <th>Company</th>
+  </tr></thead>
+
+  <tbody id="resultTable">
+  </tbody>
+</table>
+</div>
+
+<script>
+$(document).ready(function(){
+  $("#back_to_top").click(function(){ $("html, body").animate({ scrollTop: 0 }, 200); })
+});
+</script>
+<style>
+ #back_to_top { color: #222; border-color: #555; bottom: 20px; right: 30px; position: fixed; min-width: 60px; }
+</style>
+
+<button id="back_to_top" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-open" aria-hidden="true"></span></button>
+
+</body>
+</html>

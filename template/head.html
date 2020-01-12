@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+{% block kamera %}
+<style>
+.nav-tabs > li > a{ color: #000; background-color:#eee; }
+.nav-tabs > li > a:hover{ background-color: #ccc !important; color:#fff; }
+
+.nav-tabs > li { float: none; }
+.nav-tabs { overflow-x: auto; display: -webkit-box; display: -moz-box; overflow-y: hidden; }
+</style>
+
+
+<div class="container-fluid">
+<div class="tabbable" id="cam_tabs">
+<ul class="nav nav-tabs">
+<li role="presentation"{% if galery_tab  %} class="active"{% endif %}>
+ <a href="/gallery/">{% if galery_tab %}<b>{% endif %}Lietotāju Galerija{% if galery_tab %}</b>{% endif %}</a>
+</li>
+{% for cam in kameras %}
+<li role="presentation" class="{% if active_tab == cam.0.kamera_slug %}active {% endif %}cam_tab_li"
+ data-toggle="tooltip" data-placement="bottom" title="{{ cam.0.kamera_apraksts }}">
+
+{% if cam.1 == "PRIV" and active_tab != cam.0.kamera_slug %}
+<a href="/cam/grid/{{ cam.0.kamera_slug }}/1/" style="background-color: #999;">{% else %}<a href="/cam/grid/{{ cam.0.kamera_slug }}/1/">{% endif %}
+{% if active_tab == cam.0.kamera_slug %}<b>{% endif %}
+{{ cam.0.kamera_nos }}
+{% if active_tab == cam.0.kamera_slug %}</b>{% endif %}</a></li>{% endfor %}
+</ul>
+</div>
+</div>
+{% block paginator %}{% endblock %}
+{% block grid %}{% endblock %}
+{% block image %}{% endblock %}
+
+{% endblock %}
+
+
+<script>
+$(document).ready(function () {
+    var tabs = $("#cam_tabs").tabs();
+    console.log( tabs );
+
+    tabs.find(".cam_tab_li").sortable({
+        axis: "x",
+        stop: function () {
+            tabs.tabs("refresh");
+        }
+  });
+
+    $(".cam_tab_li").droppable({
+        activeClass: "ui-state-highlight",
+        drop: function (event, ui) {
+            var num_tabs = $("div#cam_tabs ul li").length + 1;
+
+    $("div#cam_tabs ul").append("<li><a href='" + ui.draggable.text() + "'></a></li>");
+
+    $("div#cam_tabs").tabs("refresh");  $(ui.draggable).remove();  console.log( "REFRESH" );
+    $(ui.draggable).remove();
+    }
+
+  });
+
+});
+</script>
+

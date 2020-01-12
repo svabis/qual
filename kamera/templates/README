@@ -1,0 +1,18 @@
+head.html
+   tabs with kamera names
+
+
+no_cam.html
+   no kamera available - incognito - no PUBLIC kameras
+
+
+paginator.html
+   paginator - page numbers
+
+
+grid.html
+   grid view thumbnails only
+
+
+image.html
+   images one by one
