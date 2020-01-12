@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+
+{% block logsys %}
+<div class="container">
+<table class="table table-hover table-striped table-condensed">
+<thead><tr>
+ <th>Pieteikuma laiks</th>
+ <th>Lietotājvārds</th>
+ <th>E-pasts</th>
+ <th>Kamera</th>
+ <th>Kameras tips</th>
+ <th></th>
+ <th></th>
+</tr></thead>
+
+<tbody>
+{% for u in newuser %}
+<tr>
+ <td>{{ u.datums|date:"Y/m/d H:m" }}</td>
+ <td>{{ u.username }}</td>
+ <td>{{ u.user_email }}</td>
+ <td>{{ u.kamera }}</td>
+ <td>{{ u.kamera_type }}</td>
+ <td><a href="/auth/user_add/{{ u.id }}/"><button type="button" class="btn btn-default btn-sm">Apstiprināt</button></a></td>
+ <td><a href="/auth/user_del/{{ u.id }}/"><button type="button" class="btn btn-default btn-sm">Dzēst</button></a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+{% endblock %}
+{% block style %}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {  background-color: #9b9da0; }
+.table.table>thead>tr>th{vertical-align:top}
+{% endblock %}

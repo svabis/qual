@@ -1,0 +1,107 @@
+{% load staticfiles %}{% load tz %}
+<!DOCTYPE html>
+<html lang="LV-LV">
+<head>
+<title>{{ title }}</title>
+ <meta charset="UTF-8">
+ <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+ <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <script src="{% static 'js/bootstrap.js' %}"></script>
+ <script src="{% static 'js/moment.js' %}"></script>
+<body>
+
+<script>
+var progressbar = 0;
+var resultCount = 0;
+var items = [];
+
+function runProgress() { progressbar = setInterval( function(){ progress() }, 5000 ); }
+
+function progress() { 
+  $.post( "http://www.kuvalda.lv/pin_progress.json", new Date(), function(data, textStatus ) {
+    $.each( data, function( key, val ) {
+      $("#progressBar").html( val + "%" ); $("#progressBar").css("width", val + "%");
+      items = []; var temp = resultCount;
+        $.post( "http://www.kuvalda.lv/pin_results.json", new Date(), function(data, textStatus ) {
+          data.forEach(function(el) {
+            resultCount++;
+            items.push( "<tr><td>" + el[1] + "</td><td>;" + el[0] + "</td><td>" + el[2] + "</td></tr>" );
+        }, "json");
+        if ( temp != resultCount ) { $("#resultTable").empty(); $("#resultTable").append( items ); }
+      });
+      if (val == 100) { clearInterval(progressbar); $("#submitSearch").removeAttr('disabled'); $("#submitUpload").removeAttr('disabled'); }
+    });
+  }, "json");
+}
+
+$(document).ready(function(){
+  runProgress();
+
+  if ( $("#progressBar").css("width") != 100 ) {
+    $("#submitSearch").prop('disabled', 'disabled');
+    $("#submitUpload").prop('disabled', 'disabled');
+  }
+
+  $("#submitSearch").click(function(){
+    $("#searchData").empty(); 
+    $.post("http://www.kuvalda.lv/pin_container.php", {
+      data: "PROCESS", date: moment().format('YYYY-MM-DD HH:mm:ss'), 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value },
+        function(data,status){
+          $("#searchData").append( moment().format('YYYY-MM-DD HH:mm') +"<br>");
+    });
+    $("#submitUpload").prop('disabled', 'disabled');
+    $("#submitSearch").prop('disabled', 'disabled');
+    $("#progressBar").html( "0%" );
+    $("#progressBar").css("width", "0%");
+    $("#resultTable").empty();
+    setTimeout( function(){ runProgress() }, 5000 );
+  });
+
+  $("#clear").click(function(){
+    $("#searchData").empty(); 
+    $.post("http://www.kuvalda.lv/pin_container.php", {
+      data: "RESET", date: moment().format('YYYY-MM-DD HH:mm:ss'), 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value },
+        function(data,status){
+          $("#searchData").empty(); 
+    });
+    $("#submitSearch").removeAttr('disabled');
+    $("#submitUpload").removeAttr('disabled');
+    $("#progressBar").html( "0%" );
+    $("#progressBar").css("width", "100%");
+    $("#resultTable").empty();
+  });
+});
+</script>
+
+
+<form action="http://www.kuvalda.lv/pin_upload.php" method="post" enctype="multipart/form-data">{% csrf_token %}
+ <div class="container" style="margin-top: 20px;">
+   <div class="form-group">
+    <input class="btn btn-success" type="file" name="fileToUpload" id="fileToUpload" style="margin-bottom: 10px;">
+    <input class="btn btn-success" type="submit" value="Upload .xlsx" name="submit" id="submitUpload">
+    <input class="btn btn-danger" value="Process .xlsx file" name="submitProcess" id="submitSearch">
+    <input class="btn btn-warning pull-right" id="clear" value="CLEAR DATA" style="border: solid black 1px;" disabled>
+  </div>
+ </div>
+</form>
+
+<div id="searchData" class="container-fluid" style="border: solid black 1px;"></div>
+
+<div class="progress"><div id="progressBar" class="progress-bar" role="progressbar" style="width:0%">0%</div></div>
+
+<div class="container">
+<table class="table table-hover table-striped table-condensed">
+  <thead><tr>
+    <th style="max-width: 200px;">Container</th>
+    <th style="max-width: 200px;">PIN</th>
+    <th>Status</th>
+  </tr></thead>
+
+  <tbody id="resultTable">
+  </tbody>
+</table>
+</div>
+
+</body>
+</html>

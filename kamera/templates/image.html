@@ -1,0 +1,96 @@
+{% extends 'head.html' %}{% load staticfiles %}{% load tz %}
+{% block image %}{% if not image%}<center><h4>attēli nav pieejami</h4></center>{% endif %}{% if image %}
+<div class="container-fluid" style="margin-top: 10px;"></div>
+<div class="container text-center" id="disable_dragstart">
+
+{# "IMG BOX START" #}
+ {% if back_img %}<a id="nav_back_arrow" href="/cam/img/{{ back_page }}/{{ back_img|cut:'.jpg' }}/">
+  <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></a>{% endif %}
+ {% if next_img %}<a id="nav_next_arrow" href="/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/">
+  <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a>{% endif %}
+<div class="img_box">
+
+  <a href="/cam/grid/{{ active_tab }}/{{ back_page }}/"><img src="{{ image.bilde_bilde.url }}"{# id="notClickable"#}></a>
+
+</div>
+{# "IMG BOX END" #}
+
+
+{# "INFO TABLE START" #}
+<table class="table table-hover table-striped table-condensed" style="width: 640px;"><tbody>
+ <tr>
+  <td></td>
+ </tr>
+ <tr class="success">
+  <td colspan=3 class="text-center"><strong>
+   Attēls saņemts uz servera: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ time|date:"d/m/Y  H:i" }}</strong>
+  </td>
+ </tr>
+
+<tr>
+{% if img_owner %}
+<td>
+ <p class="text-left">
+  <a href="/cam/img/del/{{ back_page }}/{{ image.bilde_bilde.name|cut:'.jpg' }}/">
+   <button type="button" class="btn btn-danger btn-sm">Neatgriezeniski izdzēst attēlu</button>
+  </a>
+ </p>
+</td>
+{% endif %}
+
+{% if img_owner %}<td>{% else %}
+<td colspan=3>{% endif %}
+
+<p class="text-center">
+{% if next_img %}
+{% if slideshow %}
+ <a href="/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/">
+  <button type="button" class="btn btn-primary btn-sm">Slaidrāde &nbsp;<span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+ </a>
+{% else %}
+ <a href="/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/P/">
+  <button type="button" class="btn btn-primary btn-sm">Slaidrāde &nbsp;<span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+ </a>
+{% endif %}
+{% endif %}
+ </p>
+</td>
+
+{% if img_owner %}
+<td>
+ <p class="text-right">
+  <a href="/cam/img/share/{{ back_page }}/{{ image.bilde_bilde.name|cut:'.jpg' }}/">
+   <button type="button" class="btn btn-success btn-sm">Ievietot attēlu Lietotāju galerijā</button>
+  </a>
+ </p>
+</td>
+{% endif %}
+<tr></tbody></table>
+
+<div><span style="font-size:1.5em;" id="time"></span></div>
+</div>
+{# "INFO TABLE END" #}
+
+
+<script>document.getElementById('disable_dragstart').ondragstart = function() { return false; };</script>
+{% endif %}{% endblock%}
+
+{% block javascript %}{% if image %}
+<script>{% if next_img %}
+function startTimer(duration, display) { var timer = duration, seconds; 
+setInterval( 
+function () { seconds = parseInt(timer % 60, 10); seconds = seconds < 10 ? "0" + seconds : seconds;
+display.textContent += "."; --timer;
+ if (seconds < 1) { window.location.href = "/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/P/"; }}, 200);}
+
+function  slideshow () { var slidetime = 20, display = document.querySelector('#time'); startTimer(slidetime, display);};
+{% if slideshow %}window.onload = function () { var addtime = 20, display = document.querySelector('#time'); startTimer(addtime, display); };{% endif %}{% endif %}
+
+// Cursor key events
+document.onkeydown = function(evt) {
+evt = evt || window.event; switch (evt.keyCode) {
+{% if back_img %}case 37: window.location.href = "/cam/img/{{ back_page }}/{{ back_img|cut:'.jpg' }}/"; break;{% endif %}
+{% if next_img %}case 39: window.location.href = "/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/"; break;{% endif %}
+case 38: window.location.href = "/cam/grid/{{ active_tab }}/{{ back_page }}/"; break;}};
+</script>
+{% endif %}{% endblock %}

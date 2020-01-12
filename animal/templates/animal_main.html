@@ -1,0 +1,152 @@
+{% extends 'main.html' %}{% load staticfiles %}
+
+{% block style %}
+div#img_box { display:inline-block; width: {{ img.bilde_bilde.width }}px; height: {{ img.bilde_bilde.height }}px; }
+div#img_box img { position: absolute; z-index:1; }
+#coordCanvas{ position: absolute; z-index:10; width: {{ img.bilde_bilde.width }}px; height: {{ img.bilde_bilde.height }}px; }
+#selCanvas{ position: relative; z-index:20; width: {{ img.bilde_bilde.width }}px; height: {{ img.bilde_bilde.height }}px; }
+{% endblock %}
+
+
+
+{% block animal %}
+<div class="container-fluid" style="margin-top: 10px;"></div>
+ <form action="/animal/select{{ img_nr }}" method=POST>{% csrf_token %}
+  <div class="container-fluid text-center">
+   <div id="img_box">
+     <img src="{{ img.bilde_bilde.url }}">
+     <canvas id="coordCanvas"></canvas>
+     <canvas id="selCanvas"></canvas>
+   </div>
+{#   <p id="output">x:    y:    | x:    y:</p> #}
+
+   <div class="col-md-4 col-md-offset-4">
+    <div class="form-group" style="margin-bottom: 0px;">
+     <label for="select" style="margin-bottom: 0px;">Select Animal:</label>
+{#     <select class="form-control" id="select" name="select"> #}
+{#      <option value="0"></option> #}
+
+{% for a in animals %}
+      <div class="radio text-left" style="margin-bottom: 5px;">
+        <label>
+          <input type="radio" value="{{ a.id }}" name="select" id="select{{ a.id }}" onclick="chkInputs();">
+           <table>
+             <tr><td class="text-center" style="min-width: 40px;"><b>{{ a.a_count }}</b></td><td>{{ a }}</td></tr>
+           </table>
+        </label>
+      </div>
+{#      <option value="{{ a.id }}">{{ a }}</option> #}
+{% endfor %}
+
+{#     </select> #}
+    </div>
+    <div class="form-group" style="margin-bottom: 5px;">
+     <label for="another" style="margin-bottom: 0px;">Add New Animal:</label>
+     <input type="text" class="form-control" id="another" name="another">
+    </div>
+
+    <input type="hidden" id="x1" name="x1"><input type="hidden" id="y1" name="y1">
+    <input type="hidden" id="x2" name="x2"><input type="hidden" id="y2" name="y2">
+
+{#    <button id="sub1" type="submit" class="btn btn-success" disabled>SAVE & MARK ANOTHER ANIMAL</button> #}
+    <button id="sub2" type="submit" class="btn btn-success" disabled>SAVE & NEXT</button>
+    <a href="/animal/"><button type="button" class="btn btn-primary">SKIP</button></a>
+  </div>
+ </form>
+</div>
+
+<div class="container-fluid" style="margin-top: 20px;"></div>
+
+<script>
+$('#another').on('input',function(e){ chkInputs(); });
+
+var coordCanvas = document.getElementById("coordCanvas");
+var ctxc = coordCanvas.getContext("2d");
+coordCanvas.width = {{ img.bilde_bilde.width }};
+coordCanvas.height = {{ img.bilde_bilde.height }};
+{% for c in coords %}
+  ctxc.beginPath();
+  ctxc.moveTo({{ c.x1 }},{{ c.y1 }});
+  ctxc.lineTo({{ c.x1 }},{{ c.y2 }});
+  ctxc.lineTo({{ c.x2 }},{{ c.y2 }});
+  ctxc.lineTo({{ c.x2 }},{{ c.y1 }});
+  ctxc.lineTo({{ c.x1 }},{{ c.y1 }});
+  ctxc.strokeStyle = 'lime';
+  ctxc.lineWidth = 3;
+  ctxc.stroke();
+{% endfor %}
+
+var s = document.getElementById("select");
+var a = document.getElementById("another");
+var x = document.getElementById("x1");
+
+function chkInputs() {
+  var valSelect = $("input[name='select']:checked").val()
+
+  if (a.value != "") { $("input[name='select']:checked").attr('checked', false); }
+  if (valSelect != null) { a.value = ""; }
+
+  if ((valSelect != null || a.value != "") && x.value != "") {
+    $("#sub1").removeAttr('disabled');
+    $("#sub2").removeAttr('disabled');
+  } else {
+    $("#sub1").prop('disabled', 'disabled');
+    $("#sub2").prop('disabled', 'disabled');
+  }
+}
+
+//Canvas
+var canvas = document.getElementById("selCanvas");
+var ctx = canvas.getContext("2d");
+canvas.width = {{ img.bilde_bilde.width }};
+canvas.height = {{ img.bilde_bilde.height }};
+
+//Variables
+var canvasx = $(canvas).offset().left;
+var canvasy = $(canvas).offset().top;
+var last_mousex = last_mousey = 0;
+var mousex = mousey = 0;
+var mousedown = false;
+
+//Mousedown
+$(canvas).on('mousedown', function(e) {
+    last_mousex = parseInt(e.clientX-canvasx);
+    last_mousey = parseInt(e.clientY-canvasy+window.pageYOffset);
+    mousedown = true;
+});
+
+//Mouseup
+$(canvas).on('mouseup', function(e) {
+    mousedown = false;
+    //Output
+//    $("#output").html('x:'+last_mousex+' y:'+last_mousey+' |  x:'+mousex+' y:'+mousey);
+    $("#x1").val(last_mousex); $("#y1").val(last_mousey); $("#x2").val(mousex); $("#y2").val(mousey);
+    chkInputs();
+});
+
+//Mousemove
+$(canvas).on('mousemove', function(e) {
+    mousex = parseInt(e.clientX-canvasx);
+    mousey = parseInt(e.clientY-canvasy+window.pageYOffset);
+    if(mousedown) {
+        ctx.clearRect(0,0,canvas.width,canvas.height); //clear canvas
+        ctx.beginPath();
+
+//        var width = mousex-last_mousex;
+//        var height = mousey-last_mousey;
+//        ctx.rect(last_mousex,last_mousey,width,height);
+
+        ctx.moveTo(mousex, mousey);
+        ctx.lineTo(mousex, last_mousey);
+        ctx.lineTo(last_mousex, last_mousey);
+        ctx.lineTo(last_mousex, mousey);
+        ctx.lineTo(mousex, mousey);
+
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    }
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+{% block logsys %}
+<form action="/auth/pin/" method=POST>
+  <div class="row">
+    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-xs-8  col-offset-5 col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-2">
+	<div class="form-group">
+		{% csrf_token %}
+		<label for"username">Ievadiet PIN</label>
+		<input class="form-control input-lg" type="text" name="pin" id="pin" class="form-control" autofocus="autofocus" autocomplete="off">
+	</div>
+{% if login_error %}
+	<div class="alert alert-danger" role="alert">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="sr-only">Kļūda:</span> {{ login_error }}
+	</div>
+{% endif %}
+  </div>
+  <div class="row">
+    </div>
+    <div>
+        <div class="form-group">
+             <center>
+                <input class="btn btn-lg btn-success" type="submit" value="Ieiet ar PIN" style="min-height: 80px; min-width: 200px;">
+                <a href="/gallery/"><button type="button" class="btn btn-lg btn-primary" style="min-height: 80px; min-width: 200px;">Ieiet bez PIN</button></a>
+             </center>
+        </div>
+    </div>
+</form>
+{% endblock %}

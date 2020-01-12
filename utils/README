@@ -1,0 +1,26 @@
+When running on the development machines, I am in fact running using my current user's privileges. However, when running on the deployment server, I am in fact running through wsgi, which means it's running using www-data's privileges.
+
+www-data is neither the owner nor in the group of users that own /var/www. This means that www-data is treated as other and has the permissions set to others.
+
+The BAD solution to this would be to do:
+
+sudo chmod -R 777 /var/www/
+
+This would give everyone full access to everything in /var/www/, which is a very bad idea.
+
+Another BAD solution would be to do:
+
+sudo chown -R www-data /var/www/
+
+This would change the owner to www-data, which opens security vulnerabilities.
+
+The GOOD solution would be:
+
+sudo groupadd varwwwusers
+sudo adduser www-data varwwwusers
+sudo chgrp -R varwwwusers /var/www/
+sudo chmod -R 760 /var/www/
+
+This adds www-data to the varwwwusers group, which is then set as the group for /var/www/ and all of its subfolders. chmod will give read, write, execute permissions to the owner but the group will not be able to execute any script potentially uploaded in there if for example the webserver got hacked.
+
+You could set it to 740 to make it more secure but then you won't be able to use Django's collectstatic functionality so stick to 760 unless you're very confident about what you're doing.

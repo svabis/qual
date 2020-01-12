@@ -1,0 +1,111 @@
+{% extends 'main.html' %}{% load staticfiles %}
+
+{% block style %}
+div#img_box { display:inline-block; width: {{ img.a_img.bilde_bilde.width }}px; height: {{ img.a_img.bilde_bilde.height }}px; }
+div#img_box img { position:absolute;z-index:1; }
+#coordCanvas{ position: absolute; z-index:10; width: {{ img.a_img.bilde_bilde.width }}px; height: {{ img.a_img.bilde_bilde.height }}px; }
+#selCanvas{ position: relative; z-index:20; width: {{ img.a_img.bilde_bilde.width }}px; height: {{ img.a_img.bilde_bilde.height }}px; }
+{% endblock %}
+
+
+
+{% block animal %}
+<div class="container-fluid" style="margin-top: 10px;"></div>
+ <form action="/animal/select{{ img_nr }}" method=POST>{% csrf_token %}
+  <div class="container-fluid text-center">
+   <div id="img_box">
+     <img src="{{ img.a_img.bilde_bilde.url }}">
+     <canvas id="coordCanvas"></canvas>
+     <canvas id="selCanvas"></canvas>
+   </div>
+  </div>
+  <div class="container-fluid text-center">
+   <b>{{ img.a_type.a_type }}</b><br>
+
+    <input type="hidden" id="x1" name="x1"><input type="hidden" id="y1" name="y1">
+    <input type="hidden" id="x2" name="x2"><input type="hidden" id="y2" name="y2">   
+
+   <button type="submit" class="btn btn-danger">SAVE</button>
+   <a href="/animal/coords{{ img_nr|add:1 }}"><button type="button" class="btn btn-warning">NEXT</button></a>
+  </div>
+ </form>
+</div>
+
+<div class="container-fluid" style="margin-top: 20px;"></div>
+
+<script>
+//Canvas
+var coordCanvas = document.getElementById("coordCanvas");
+var ctxx = coordCanvas.getContext("2d");
+coordCanvas.width = {{ img.a_img.bilde_bilde.width }};
+coordCanvas.height = {{ img.a_img.bilde_bilde.height }};
+
+ctxx.clearRect(0,0,coordCanvas.width,coordCanvas.height); //clear canvas
+ctxx.beginPath();
+
+ctxx.moveTo({{ img.x1 }},{{ img.y1 }});
+ctxx.lineTo({{ img.x1 }},{{ img.y2 }});
+ctxx.lineTo({{ img.x2 }},{{ img.y2 }});
+ctxx.lineTo({{ img.x2 }},{{ img.y1 }});
+ctxx.lineTo({{ img.x1 }},{{ img.y1 }});
+ctxx.strokeStyle = 'lime';
+ctxx.lineWidth = 3;
+ctxx.stroke();
+
+ctxx.moveTo({{ img.x1 }},{{ img.y1 }});
+ctxx.lineTo({{ img.x2 }},{{ img.y2 }});
+ctxx.strokeStyle = 'red';
+ctxx.lineWidth = 5;
+ctxx.stroke();
+
+
+//Canvas
+var canvas = document.getElementById("selCanvas");
+var ctx = canvas.getContext("2d");
+canvas.width = {{ img.a_img.bilde_bilde.width }};
+canvas.height = {{ img.a_img.bilde_bilde.height }};
+
+//Variables
+var canvasx = $(canvas).offset().left;
+var canvasy = $(canvas).offset().top;
+var last_mousex = last_mousey = 0;
+var mousex = mousey = 0;
+var mousedown = false;
+
+//Mousedown
+$(canvas).on('mousedown', function(e) {
+    last_mousex = parseInt(e.clientX-canvasx);
+    last_mousey = parseInt(e.clientY-canvasy+window.pageYOffset);
+    mousedown = true;
+});
+
+//Mouseup
+$(canvas).on('mouseup', function(e) {
+    mousedown = false;
+    //Output
+    $("#x1").val(last_mousex); $("#y1").val(last_mousey); $("#x2").val(mousex); $("#y2").val(mousey);
+    chkInputs();
+});
+
+//Mousemove
+$(canvas).on('mousemove', function(e) {
+    mousex = parseInt(e.clientX-canvasx);
+    mousey = parseInt(e.clientY-canvasy+window.pageYOffset);
+    if(mousedown) {
+        ctx.clearRect(0,0,canvas.width,canvas.height); //clear canvas
+        ctx.beginPath();
+
+        ctx.moveTo(mousex, mousey);
+        ctx.lineTo(mousex, last_mousey);
+        ctx.lineTo(last_mousex, last_mousey);
+        ctx.lineTo(last_mousex, mousey);
+        ctx.lineTo(mousex, mousey);
+
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    }
+});
+</script>
+
+{% endblock %}

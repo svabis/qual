@@ -1,0 +1,17 @@
+login.html
+    Login form
+
+user_list.html
+    auth.User list
+
+create_user.html
+    new auth.User, User_data, User_kamera creation form
+    include outside mail or @kuvalda.lv (random generated)
+
+register.html
+    register new camera form
+reg_response.html
+    after registration response to wait e-mail notification
+
+new_user_list.html
+    users awaiting registration list

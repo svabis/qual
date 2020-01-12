@@ -1,0 +1,49 @@
+{% extends 'main.html' %}
+{% block logsys %}
+<form action="/auth/register/" method=POST>
+{% csrf_token %}
+    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-xs-8  col-offset-5 col-lg-offset-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-2">
+	<h3>Jauna lietotāja reģistrācija</h3>
+	<div class="form-group">
+		<label for"username">lietotāja vārds</label>
+		<input type="text" name="user" id="user" class="form-control" autofocus="autofocus" value="{{user}}">
+	</div>
+        <div class="form-group">
+                <label for"username">lietotāja kontakta e-pasts</label>
+                <input type="text" name="email" id="email" class="form-control" value="{{email}}">
+        </div>
+	<div class="form-group">
+		<label for="password">Parole</label>
+		<input type="password" name="passw1" id="passw1" class="form-control">
+		<input type="password" name="passw2" id="passw2" class="form-control">
+	</div>
+{% if error %}
+<div class="alert alert-danger" role="alert">
+{% if user_error %}<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Kļūda:</span> {{ user_error }}<br>{% endif %}
+{% if email_error %}<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Kļūda:</span> {{ email_error }}<br>{% endif %}
+{% if passw_error %}<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Kļūda:</span> {{ passw_error }}<br>{% endif %}
+</div>
+{% endif %}
+        <div class="form-group">
+                <label for="password">Kameras nosaukums</label>
+                <input type="text" name="kamera" id="kamera" class="form-control" value="{{kamera}}">
+        </div>
+        <div class="form-group">
+		<select class="form-control" id="kamera_type" name="kamera_type">
+			<option value="PUB">Publiska</option>
+			<option value="PRIV" selected>Privāta</option>
+			<option value="SEC">Apsardzes</option>
+<!--			<option value="SHARE">Kopīgota</option> -->
+		</select>
+        </div>
+	<div class="form-group" style="margin-top: 10px;">
+		<input class="btn btn-primary" type="submit" value="Pabeigt reģistrāciju">
+		<a href="/"><button type="button" class="btn btn-primary">Atcelt</button></a>
+	</div>
+    </div>
+</form>
+{% endblock %}
+
+{% block style %}
+.form-group { margin-bottom: 2px; }
+{% endblock %}

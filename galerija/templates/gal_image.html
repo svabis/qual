@@ -1,0 +1,126 @@
+{% extends 'head.html' %}{% load staticfiles %}{% load tz %}
+
+{% block javascript %}
+<script>
+{# "like&comment" #}
+function img_like(value) { if (value == "+") { $("#plus").submit(); } if (value == "-") { $("#minus").submit(); } }
+$(document).ready(function(){ $("#to_comment").click(function(){ $("html, body").animate({ scrollTop: $("body").height() }, 2000); }) })
+
+{# "Cursor key events" #}
+document.onkeydown = function(evt) {
+evt = evt || window.event; switch (evt.keyCode) {
+{% if back_img %}case 37: window.location.href = "/gallery/{{ back_page }}/{{ back_img.id }}/"; break;{% endif %}
+{% if next_img %}case 39: window.location.href = "/gallery/{{ back_page }}/{{ next_img.id }}/"; break;{% endif %}
+
+{# case 38: window.location.href = "/gallery/{{ back_page }}/"; break; #}
+
+}};
+
+{% if username.is_superuser %}
+
+$(document).ready(function () {
+  $("div.img_box > img").hover(
+    function(){
+      console.log( $(this) );
+      var temp = $(this).attr('src');
+      temp = temp.replace("galery/", "galery/_");
+      $(this).attr("src",temp);
+    },
+    function(){
+      var temp = $(this).attr('src');
+      temp = temp.replace("galery/_", "galery/");
+      $(this).attr("src",temp);
+  });
+});
+{% endif %}
+
+</script>
+{% endblock %}
+
+
+
+{% block image %}
+<div class="container-fluid" style="margin-top: 10px;"></div>
+<div class="container text-center" id="disable_dragstart">
+
+{# "+/- START" #}
+<div class="likes">
+ <center>
+ <form id="plus" action="/gallery/{{ back_page }}/{{ image.id }}/plus" method=POST>{% csrf_token %}</form>
+ <form id="minus" action="/gallery/{{ back_page }}/{{ image.id }}/minus" method=POST>{% csrf_token %}</form>
+  <button class="btn btn-xs btn-success" onclick="img_like('+');">+</button>
+  <button class="btn btn-xs btn-danger" onclick="img_like('-');">-</button>
+  <table><tr>
+   <td><h5 style="color: green;">+ {{ bilde_plus }}</h5></td>
+   <td>&nbsp;&nbsp;</td>
+   <td><h5 style="color: red;">- {{ bilde_minus }}</h5></td>
+  </tr></table>
+  <h5 id="to_comment">{% if komenti_counter == 0 %}nav komentāru{% elif komenti_counter == 1 %}{{ komenti_counter }} komentārs{% else %}{{ komenti_counter }} komentāri{% endif %}</h5>
+ </center>
+</div>
+{# "+/- END" #}
+
+
+{# "NAV ARROWS START" #}
+{% if back_img %}<a id="nav_back_arrow" href="/gallery/{{ back_page }}/{{ back_img.id }}/">
+<span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></a>{% endif %}
+{% if next_img %}<a id="nav_next_arrow" href="/gallery/{{ back_page }}/{{ next_img.id }}/">
+<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a>{% endif %}
+{# "NAV ARROWS END" #}
+
+
+{# "IMG BOX START" #}
+<div class="img_box">
+ <img src="{{ image.bilde_bilde.url }}" id="notClickable" style="border:1px solid black">
+</div>
+{# "IMG BOX END" #}
+
+
+{# "INFO TABLE START" #}
+<table class="table table-hover table-striped table-condensed" style="width: 640px;"><tbody>
+ <tr>
+  <td>
+  </td>
+ </tr>
+ <tr class="success">
+  <td colspan=2 class="text-center">
+   <strong>Attēls saņemts uz servera: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ time|date:"d/m/Y  H:i" }}</strong>
+  </td>
+ </tr>
+ <tr>
+ </tr>
+</tbody></table>
+</div>
+{# "INFO TABLE END" #}
+
+
+{# "COMMENTS" #}
+<div class="container" style="width: 50%;">
+<form action="/gallery/{{ back_page }}/{{ image.id }}/" method=POST>
+<table class="table table-condensed"><tbody>
+ <tr>
+  <td colspan="2" style="border-top:none; border-bottom: solid #ccc 2px;">
+   <strong>Komentārs: </strong>
+   <div class="input-group" style="width: 100%;">{% csrf_token %}
+    <input type="text" name="comment" class="form-control">
+    <span class="input-group-btn">
+     <button class="btn btn-success" type="submit" style="background-color: #006622; border-color: #006622;">
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+     </button>
+    </span>
+   </div>
+  </td>
+ </tr>
+</form>
+{% for k in komenti %}
+<tr>
+ <td><span class="glyphicon glyphicon-comment" aria-hidden="true" style="color: #1f7a1f;"></span></td>
+ <td class="text-right">{{ k.koment_datums|date:"d/m/Y  H:i" }}</td>
+</tr>
+<tr><td colspan="2" style="padding:0px 5px 5px 30px; border-top: none;">{{ k.koment_text }}</td></tr>
+{% endfor %}
+</tbody><table>
+</div>
+
+<script>document.getElementById("disable_dragstart").ondragstart = function() { return false; };</script>
+{% endblock%}
