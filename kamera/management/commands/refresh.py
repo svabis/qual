@@ -46,7 +46,7 @@ class Command(BaseCommand):
        # If Camera AI enabled
         if cam.kamera_ai == True and len(os.listdir(path)) > 0:
             print("AI started")
-            os.system("/home/svabis/web/utils/ai/runner.sh") # > /dev/null 2>&1 || true")
+            os.system("/home/svabis/web/utils/ai/runner.sh " + path) # > /dev/null 2>&1 || true")
             print("AI ended")
 #        print cam.kamera_ai
 
