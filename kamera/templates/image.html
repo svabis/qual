@@ -1,5 +1,8 @@
 {% extends 'head.html' %}{% load staticfiles %}{% load tz %}
-{% block image %}{% if not image%}<center><h4>attēli nav pieejami</h4></center>{% endif %}{% if image %}
+
+{% block image %}
+{% if not image %}<center><h4>attēli nav pieejami</h4></center>{% endif %}
+
 <div class="container-fluid" style="margin-top: 10px;"></div>
 <div class="container text-center" id="disable_dragstart">
 
@@ -44,11 +47,11 @@
 <p class="text-center">
 {% if next_img %}
 {% if slideshow %}
- <a href="/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/">
+ <a href="/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/" id="slideShowBtn">
   <button type="button" class="btn btn-primary btn-sm">Slaidrāde &nbsp;<span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
  </a>
 {% else %}
- <a href="/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/P/">
+ <a href="/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/P/" id="slideShowBtn">
   <button type="button" class="btn btn-primary btn-sm">Slaidrāde &nbsp;<span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
  </a>
 {% endif %}
@@ -73,24 +76,46 @@
 
 
 <script>document.getElementById('disable_dragstart').ondragstart = function() { return false; };</script>
-{% endif %}{% endblock%}
+{% endblock%}
 
-{% block javascript %}{% if image %}
-<script>{% if next_img %}
+
+{% block javascript %}
+{% if image %}
+<script>
+{# "Sroll Control" #}
+$(document).ready(function(){
+  var cook = document.cookie; cook = cook.replace(/\s/g, ""); cook = cook.split(";"); cook.forEach(iterateCookie);
+  try { $("#nav_back_arrow").click(function(){ scrollControl(); }) } catch(e) {}
+  try { $("#nav_next_arrow").click(function(){ scrollControl(); }) } catch(e) {}
+  try { $("#slideShowBtn").click(function(){ scrollControl(); }) } catch(e) {}
+})
+
+function iterateCookie(value, index, array) {
+ if (value.match("vscroll")) { value = value.split("="); var position = parseInt(value[1]); window.scrollTo(0, position); }
+}
+
+function scrollControl() {
+  var now = new Date(); var time = now.getTime(); var expireTime = time + 10000; now.setTime(expireTime);
+  document.cookie = "vscroll=" + window.pageYOffset + "; path=/; expires=" + now.toUTCString();
+}
+
+{# "Slideshow" #}
+{% if next_img %}
 function startTimer(duration, display) { var timer = duration, seconds; 
 setInterval( 
 function () { seconds = parseInt(timer % 60, 10); seconds = seconds < 10 ? "0" + seconds : seconds;
 display.textContent += "."; --timer;
- if (seconds < 1) { window.location.href = "/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/P/"; }}, 200);}
+ if (seconds < 1) { scrollControl(); window.location.href = "/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/P/"; }}, 200);}
 
 function  slideshow () { var slidetime = 20, display = document.querySelector('#time'); startTimer(slidetime, display);};
 {% if slideshow %}window.onload = function () { var addtime = 20, display = document.querySelector('#time'); startTimer(addtime, display); };{% endif %}{% endif %}
 
-// Cursor key events
+{# "Cursor key events" #}
 document.onkeydown = function(evt) {
 evt = evt || window.event; switch (evt.keyCode) {
-{% if back_img %}case 37: window.location.href = "/cam/img/{{ back_page }}/{{ back_img|cut:'.jpg' }}/"; break;{% endif %}
-{% if next_img %}case 39: window.location.href = "/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/"; break;{% endif %}
+{% if back_img %}case 37: scrollControl(); window.location.href = "/cam/img/{{ back_page }}/{{ back_img|cut:'.jpg' }}/"; break;{% endif %}
+{% if next_img %}case 39: scrollControl(); window.location.href = "/cam/img/{{ back_page }}/{{ next_img|cut:'.jpg' }}/"; break;{% endif %}
 case 38: window.location.href = "/cam/grid/{{ active_tab }}/{{ back_page }}/"; break;}};
 </script>
-{% endif %}{% endblock %}
+{% endif %}
+{% endblock %}

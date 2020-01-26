@@ -9,6 +9,7 @@ import sys # reading args from termial comand
 
 #from time import sleep # DEVELOPMENT use
 
+from random import randrange # random colors
 from datetime import datetime
 
 #import tensorflow as tf
@@ -17,7 +18,8 @@ from datetime import datetime
 
 # colors
 color = ["lime", "aqua", "magenta", "coral", "cyan", "darkorchid", "fuchsia"]
-color_enum = 0
+# random starting color
+color_enum = randrange(len(color))
 def set_color():
     global color_enum
     try:
@@ -42,7 +44,7 @@ def sharpen(img_in, img_out):
 
 # draw box + log
 def draw_boxes(source, dest, img, boxes):
-    mx = 50
+    mx = 80
    # compacting similar boxes (twice if number of boxes is alot)
     for i in range(0, 2):
       for index1, box in enumerate( boxes ):
@@ -153,12 +155,12 @@ if __name__ == '__main__':
             sharp_neg_boxes = search_animal( detector, "SHARPENED NEGATIVE", working_dir + "temp6_sharp_neg.png", working_dir + "temp6_sharp_neg.png" )
 
            # CLEANUP
-            os.remove( working_dir + "temp1.png" )
-            os.remove( working_dir + "temp2_neg_clean.png" )
-            os.remove( working_dir + "temp3_neg.png" )
-            os.remove( working_dir + "temp4_sharp_clean.png" )
-            os.remove( working_dir + "temp5_sharp.png" )
-            os.remove( working_dir + "temp6_sharp_neg.png" )
+#            os.remove( working_dir + "temp1.png" )
+#            os.remove( working_dir + "temp2_neg_clean.png" )
+#            os.remove( working_dir + "temp3_neg.png" )
+#            os.remove( working_dir + "temp4_sharp_clean.png" )
+#            os.remove( working_dir + "temp5_sharp.png" )
+#            os.remove( working_dir + "temp6_sharp_neg.png" )
 
            # DRAW CUSTOM BOXES ON OUTPUT
             boxes = pos_boxes + neg_boxes + sharp_boxes + sharp_neg_boxes

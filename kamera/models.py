@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.template.defaultfilters import truncatechars  # or truncatewords
 from django.db import IntegrityError
 
 from django.utils import timezone
@@ -37,15 +38,22 @@ class Kamera(models.Model):
     class Meta():
         db_table = "kameras"
 
-    kamera_nos = models.CharField( max_length = 100 )
-    kamera_slug = models.SlugField( unique = True, default=rand_slug() )
-    kamera_apraksts = models.TextField( default = 'kameras apraksts', blank = True )
-    kamera_img_dir = models.CharField( max_length = 50, default = 'username' )
-    kamera_email = models.CharField( max_length = 30, blank = True )
-    kamera_type = models.CharField( max_length=10, choices=KAMERA_TYPE, default="PUB" )
+    kamera_nos = models.CharField( max_length = 100, verbose_name="nosaukums" )
+    kamera_slug = models.SlugField( unique = True, default=rand_slug(), verbose_name="url nosaukums" )
+    kamera_apraksts = models.TextField( default = '', blank = True, null = True, verbose_name="alt teksts" )
+    kamera_img_dir = models.CharField( max_length = 50, default = 'username', verbose_name="sistēmas mape" )
+    kamera_email = models.CharField( max_length = 30, blank = True, verbose_name="e-pasts@kuvalda.lv" )
+    kamera_type = models.CharField( max_length=10, choices=KAMERA_TYPE, default="PUB", verbose_name="tips" )
 
    # AI render
-    kamera_ai = models.BooleanField( default = False )
+    kamera_ai = models.BooleanField( default = False, verbose_name="bērns?" )
+   # FTP triger
+    kamera_ftp = models.BooleanField( default = False, verbose_name="FTP?" )
+
+    @property
+    def kamera_apraksts_short(self):
+        return truncatechars(self.kamera_apraksts, 30)
+    kamera_apraksts_short.fget.short_description = "apraksts saīsināts"
 
     def __unicode__(self):
         return '%s' % (self.kamera_nos)

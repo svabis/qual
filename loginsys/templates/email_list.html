@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+
+{% block logsys %}
+<div class="container" style="margin-top: 20px;">
+
+{# <!-- MESSAGE IF ADDED WITH COOKIE --> #}
+  <div id="addMsg" class="alert alert-success" {#role="alert"#} style="margin-bottom:5px; display:none;">
+   <center><span class="glyphicon glyphicon-ok" aria-hidden="true"></span><strong id="msgText"></strong></center>
+  </div>
+<script>
+function getCookie(name) { var value = "; " + document.cookie; var parts = value.split("; " + name + "="); if (parts.length == 2) return parts.pop().split(";").shift(); }
+var temp = getCookie('email_added');
+if ( temp != null ) { $("#addMsg").show(); $("strong#msgText").html("&nbsp;&nbsp;E-pasts " + temp + " Pievienots !"); setTimeout( function(){ $("#addMsg").hide(); }, 6000); }
+</script>
+{# <!-- MESSAGE IF ADDED WITH COOKIE --> #}
+
+
+<b>kuvalda e-pasti</b>
+<hr>
+
+{% for m in maillist %}
+<button class="btn mail">{{ m }}</button>
+{% endfor %}
+
+<hr>
+</div>
+
+<div class="col-xl-6 col-lg-6 col-md-6  col-sm-12 col-xs-12  col-xl-offset-3 col-lg-offset-3 col-md-offset-3">
+ <div class="row">
+  <form action="/loginsys/add_email/" method=POST>{% csrf_token %}
+   <div class="col-xl-7 col-lg-7 col-md-7 col-sm-6 col-xs-12">
+    <div class="input-group">
+     <input type="text" class="form-control" placehoder="jauns e-pasts" name="newMail" id="newMail">
+     <span class="input-group-addon">@kuvalda.lv</span>
+    </div>
+   </div>
+   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+    <button type="submit" class="btn btn-danger">Izveidot jaunu e-pastu</button>
+   </div>
+  </form>
+ </div>
+</div>
+
+<div class="container"></div>
+
+
+{% endblock %}
+{% block style %}
+hr { margin-top: 10px; margin-bottom: 10px; }
+.mail { margin-bottom: 5px; border-color: black; }
+{% endblock %}

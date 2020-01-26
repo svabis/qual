@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.contrib import auth
-#from django.core.context_processors import csrf
 
 from kamera.models import Kamera
 from loginsys.models import User_data, User_kamera, Username_list

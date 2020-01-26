@@ -4,6 +4,12 @@ login.html
 user_list.html
     auth.User list
 
+email_list.html
+    servermail local e-mail list
+    PROCESS BUTTON FOR ADDING NEW
+
+
+-----------------------------------------------------------
 create_user.html
     new auth.User, User_data, User_kamera creation form
     include outside mail or @kuvalda.lv (random generated)

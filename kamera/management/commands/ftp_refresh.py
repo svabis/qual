@@ -44,14 +44,11 @@ class Command(BaseCommand):
         imagelist = []  # array of pictures
 
        # If Camera AI enabled
-        if cam.kamera_ai == True and len(os.listdir(path)) > 0:
-            print("AI started")
+        if cam.kamera_ftp == True and cam.kamera_ai == True and len(os.listdir(path)) > 0:
             os.system("/home/svabis/web/utils/ai/runner.sh " + path) # > /dev/null 2>&1 || true")
-            print("AI ended")
-#        print cam.kamera_ai
 
        # SKIP ALL E-MAIL TRIGGERED CAMERAS
-        if cam.kamera_email != "":
+        if cam.kamera_ftp == False:
             continue
 
         try:

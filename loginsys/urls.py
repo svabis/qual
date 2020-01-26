@@ -10,6 +10,9 @@ urlpatterns = [
    # EXISTING USER LIST
     url(r'^user_list/$', 'loginsys.views.existing_users',),
 
+   # LOCAL E_MAIL LIST
+    url(r'^email_list/$', 'loginsys.views.list_emails',),
+
    # REGISTRATION
 #    url(r'^register/$', 'loginsys.views.register',),
    # ADD / DEL USER

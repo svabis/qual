@@ -6,18 +6,33 @@
 function img_like(value) { if (value == "+") { $("#plus").submit(); } if (value == "-") { $("#minus").submit(); } }
 $(document).ready(function(){ $("#to_comment").click(function(){ $("html, body").animate({ scrollTop: $("body").height() }, 2000); }) })
 
+{# "Scroll control" #}
+$(document).ready(function(){
+  var cook = document.cookie; cook = cook.replace(/\s/g, ""); cook = cook.split(";"); cook.forEach(iterateCookie);
+  try { $("#nav_back_arrow").click(function(){ scrollControl(); }) } catch(e) {}
+  try { $("#nav_next_arrow").click(function(){ scrollControl(); }) } catch(e) {}
+})
+
+function iterateCookie(value, index, array) {
+ if (value.match("vscroll")) { value = value.split("="); var position = parseInt(value[1]); window.scrollTo(0, position); }
+}
+
+function scrollControl() {
+  var now = new Date(); var time = now.getTime(); var expireTime = time + 5000; now.setTime(expireTime);
+  document.cookie = "vscroll=" + window.pageYOffset + "; path=/; expires=" + now.toUTCString();
+}
+
 {# "Cursor key events" #}
 document.onkeydown = function(evt) {
 evt = evt || window.event; switch (evt.keyCode) {
-{% if back_img %}case 37: window.location.href = "/gallery/{{ back_page }}/{{ back_img.id }}/"; break;{% endif %}
-{% if next_img %}case 39: window.location.href = "/gallery/{{ back_page }}/{{ next_img.id }}/"; break;{% endif %}
+{% if back_img %}case 37: scrollControl(); window.location.href = "/gallery/{{ back_page }}/{{ back_img.id }}/"; break;{% endif %}
+{% if next_img %}case 39: scrollControl(); window.location.href = "/gallery/{{ back_page }}/{{ next_img.id }}/"; break;{% endif %}
 
 {# case 38: window.location.href = "/gallery/{{ back_page }}/"; break; #}
 
 }};
 
-{% if username.is_superuser %}
-
+{#{% if username.is_superuser %}#}
 $(document).ready(function () {
   $("div.img_box > img").hover(
     function(){
@@ -32,7 +47,7 @@ $(document).ready(function () {
       $(this).attr("src",temp);
   });
 });
-{% endif %}
+{#{% endif %}#}
 
 </script>
 {% endblock %}

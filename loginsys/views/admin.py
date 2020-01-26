@@ -7,11 +7,22 @@ from django.contrib import auth
 from loginsys.models import User_data, User_kamera, Username_list
 from django.contrib.auth.models import User     # autorisation library
 
-#from loginsys import mail
 
-#import datetime, pytz
-#import textwrap
-#import os
+# GET LIST FROM SQL USING PYTHON MYSQL CONNECTOR
+def servermail_list(request):
+   # Import mysql connector
+    import MySQLdb as mdb
+    con = mdb.connect('localhost', 'pastnieks', 'P@stn!eks', 'servermail');
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM virtual_users")
+    result = []
+   # Fill array with data from MySQL table
+    for i in range(cur.rowcount):
+        row = cur.fetchone()
+        result.append(row[3])
+    return sorted(result)
+
 
 
 # !!!!! EXISTING USER LIST !!!!!
@@ -28,3 +39,16 @@ def existing_users(request):
         return render(request, 'user_list.html', args)
     return redirect ('/')
 
+
+# !!!!! LIST EXISTING E-MAILS !!!!!
+def list_emails(request):
+    username = auth.get_user(request)
+    args = {}
+    args['username'] = username
+    args['heading'] = u'Esošo e-pastu saraksts'
+
+    if username.is_superuser:
+        args['maillist'] = servermail_list(request)
+
+        return render(request, 'email_list.html', args)
+    return redirect ('/')
