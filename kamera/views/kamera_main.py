@@ -73,6 +73,14 @@ def cam_header(request):
     args['domain'] = get_domain(request)
     args['full_domain'] = args['title']
 
+
+   # MOBILE BROWSER OR TABLET
+        # info: https://stackoverflow.com/questions/42273319/detect-mobile-devices-with-django-and-python-3
+    args['mobile_browser'] = request.user_agent.is_mobile
+    args['tablet_browser'] = request.user_agent.is_tablet
+    temp = request.user_agent.device
+    args['device'] = str(temp.family) + " " + str(temp.brand) + " " + str(temp.model)
+
     try:
         if str('cam_type') in request.COOKIES:
             args['cam_sort'] = int(request.COOKIES.get('cam_type'))

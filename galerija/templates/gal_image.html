@@ -32,7 +32,8 @@ evt = evt || window.event; switch (evt.keyCode) {
 
 }};
 
-{#{% if username.is_superuser %}#}
+{# "CHANGE IMAGE TO AI DETECTED" #}
+{% if username.is_superuser %}
 $(document).ready(function () {
   $("div.img_box > img").hover(
     function(){
@@ -47,7 +48,7 @@ $(document).ready(function () {
       $(this).attr("src",temp);
   });
 });
-{#{% endif %}#}
+{% endif %}
 
 </script>
 {% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>{% load static %}{% load tz %}
+<head>
+  <title>{{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta charset="UTF-8" />
+
+
+ <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+
+ <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+ <script src="{% static 'js/bootstrap.js' %}"></script>
+
+  <script>
+   Array.prototype.remove = function() { var what, a = arguments, L = a.length, ax; while (L && this.length) { what = a[--L]; while ((ax = this.indexOf(what)) !== -1) { this.splice(ax, 1); }} return this; };
+   function iterArray(item) { if (item != "") { $("#"+item+"_list").attr("aria-expanded","true"); $("#"+item+"_list").removeClass( "collapsed" ); $("#"+item).attr("aria-expanded","true"); $("#"+item).addClass( "in" ); } }
+   function getNavs() { var name = "menu_navs="; var decodedCookie = decodeURIComponent(document.cookie); var ca = decodedCookie.split(';'); for(var i = 0; ca.length>i; i++) { var c = ca[i]; while (c.charAt(0) == ' ') { c = c.substring(1); } if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }} return ""; }
+   function saveNavs(el) { if (el.className == "collapsed") { if ( navCookies.indexOf( el.dataset.target.substr(1) ) === -1 ) { navCookies.push( el.dataset.target.substr(1) ); } else { navCookies.remove( el.dataset.target.substr(1) ); }} else { navCookies.remove( el.dataset.target.substr(1) ); } document.cookie = "menu_navs=" + navCookies + "; path=/;"; }
+  </script>
+{% block javascript %}{% endblock %}
+
+  <style>
+   body { padding-top:5px; background-color: #ddd; }
+   .btn { border: solid #555 1px; min-width:100%; color:#333;}
+{% block style %}{% endblock %}
+
+  </style>
+</head>
+<body>
+
+{% block content %}{% endblock %}
+
+
+</div>
+
+</body>
+</html>
+
+

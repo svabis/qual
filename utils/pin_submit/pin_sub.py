@@ -33,6 +33,7 @@ input_loc = "/home/svabis/web/utils/pin_submit/pin_temp/train.xlsx"
 # 1- login
 # 2- PIN enter
 url_1 = "https://prebooking.bct.lv/login"
+#url_1 = "https://prebooking.bct.lv"
 url_2 = "https://prebooking.bct.lv/visits/add-outgate"
 
 results = []
@@ -205,6 +206,7 @@ def pin_reader():
         exit = True
     except OtherExceptions:
         errors.append( "OtherExceptions" )
+        print("OTHER EXCEPTION")
         exit = True
     finally:
         if exit != True:
@@ -233,7 +235,9 @@ def pin_reader():
 
         if exit != True:
             c_count = 0
+           # Iterate PIN
             for p in pin_array:
+              try:
                 driver.get( url_2 )
                # Check footer
                 chk_footer()
@@ -244,22 +248,26 @@ def pin_reader():
 #                    print temp
                     results.append( temp )
                     c_count += 1
-                   # Append results to file
-                    with open("/www/kuvalda/static/cont/pin_results.json", 'wb') as outfile:
-                        json.dump( results, outfile )
-                   # Write progresbar status
-                    f = open("/www/kuvalda/static/cont/pin_progress.json","w")
-                    f.write('{"progress": "' + str( int((float(c_count)/len(pin_array)) * 100 )) + '"}\r\n')
-                    f.close()
+              except:
+#                pass
+                results.append( [p[0], p[1], "BIG Error ocured"] )
+
+             # Append results to file
+              with open("/www/kuvalda/static/cont/pin_results.json", 'wb') as outfile:
+                  json.dump( results, outfile )
+             # Write progresbar status
+              f = open("/www/kuvalda/static/cont/pin_progress.json","w")
+              f.write('{"progress": "' + str( int((float(c_count)/len(pin_array)) * 100 )) + '"}\r\n')
+              f.close()
 
 
 # kill resuming proceses & exit
     driver.quit()
 #    kill_mozzila()
 
-    if len(errors) > 0:
-        print errors
-    print datetime.datetime.now()
+#    if len(errors) > 0:
+#        print errors
+#    print datetime.datetime.now()
 
 
 #pin_reader()

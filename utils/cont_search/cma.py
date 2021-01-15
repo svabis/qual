@@ -45,12 +45,16 @@ def cma_search(search):
        # FOUND
         else:
             try:
+               # SIZE
+                size = re.findall('(?<="o-container-type">).*?(?=</abb)', html)[0].split(" ")[0]
+
                # DATE & TIME
                 date = re.findall("(\d{2}\s{1}[A-Z]\w{2}\s{1}\d{4})", html)
                 time = re.findall("(\s{1}\d{2}\:\d{2})", html)
                # SHIP
-#                temp_ship = re.findall('(?<="vessel" class="pv0-8 ph1">\r\s).*?(.*)', html)[-1].lstrip()
-                temp_ship = re.findall('(?<=td data-label="Vessel">\r\s).*?(.*)', html)[-1].lstrip()
+#                temp_ship = re.findall('(?<=td data-label="Vessel">\r\s).*?(.*)', html)[-1].lstrip()
+                temp_ship = re.findall('(?<=td data-label="Vessel">\n).*?(.*)', html)[-1].lstrip()
+#                print temp_ship
                 if temp_ship.startswith('<'):
                     ship = temp_ship.split('>')[1].split('<')[0]
                 else:
@@ -58,14 +62,19 @@ def cma_search(search):
                # VOYAGE
                 voyage = re.findall('(?<=VoyageReference=).*?(?=")', html)[-1]
                # TERMINAL
-#                terminal = re.findall('(?<="location" class="pv0-8 ph1">\r\s).*?(.*)', html)[-1].lstrip()
-                terminal = re.findall('(?<=td data-label="Location">\r\s).*?(.*)', html)[-1].lstrip()
+#                terminal = re.findall('(?<=td data-label="Location">\r\s).*?(.*)', html)[-1].lstrip()
+                terminal = re.findall('(?<=td data-label="Location">\n).*?(.*)', html)[-1].lstrip()
 
-                results.append( [i, date[-1], time[-1], ship, voyage, terminal, "CMA CGM"] )
+                results.append( [i, size,  date[-1], time[-1], ship, voyage, terminal, "CMA CGM"] )
                 with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
                   json.dump(results, outfile)
+
 
             except:
-                results.append( [i, "-", "-", "-", "-", "-", "CMA CGM"] )
+                results.append( [i, "-", "-", "-", "-", "-", "-", "CMA CGM"] )
                 with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
                   json.dump(results, outfile)
+
+#    print results
+
+#cma_search( ["TGHU9419192", "CMAU0408640", "TLLU4266016"] )

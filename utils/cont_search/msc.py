@@ -38,14 +38,14 @@ def msc_search(search):
         element = WebDriverWait(driver, 20).until( EC.presence_of_element_located((By.ID, "subFooter")) )
     except TimeoutException:
         for _ in search:
-          results = ["TIMEOUT", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "MSC"]
+          results = ["TIMEOUT", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "MSC"]
         with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
           json.dump(results, outfile)
         return
 
     except NoSuchElementException:
         for _ in search:
-          results = ["NO_ELEMENT", "subFooter", "ERROR", "ERROR", "ERROR", "ERROR", "MSC"]
+          results = ["NO_ELEMENT", "subFooter", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "MSC"]
         with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
           json.dump(results, outfile)
 
@@ -59,7 +59,7 @@ def msc_search(search):
             element.click()
         except NoSuchElementException:
 #            for _ in search:
-#              results = ["NO_SUCH_ELEMENT", "BUTTON", "ERROR", "ERROR", "ERROR", "ERROR", "MSC"]
+#              results = ["NO_SUCH_ELEMENT", "BUTTON", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "MSC"]
 #            with open("/www/kuvalda/static/results.json", 'wb') as outfile:
 #              json.dump(results, outfile)
             pass
@@ -68,7 +68,7 @@ def msc_search(search):
         results = []
 
         for i in search:
-            temp = [i, "NO_DATA", "ERROR", "ERROR", "ERROR", "ERROR", "MSC"]
+            temp = [i, "NO_DATA", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "MSC"]
 
            # fill form and submit
             element = driver.find_element_by_name("ctl00$ctl00$plcMain$plcMain$TrackSearch$txtBolSearch$TextField")
@@ -82,8 +82,14 @@ def msc_search(search):
             html = html.replace("&nbsp;", " ")
 
             try:
+                size = driver.find_element_by_xpath("/html/body/form/div[4]/div/div[2]/main/div/div[2]/div/div/div[2]/dl/dd/div/dl/dd/div/table[1]/tbody/tr[2]/td[1]/span").get_attribute("innerHTML").split("'")[0]
+            except:
+                size = "---"
+
+            try:
                 data = re.findall('(?<=class="responsiveTd">\s).*?(?=</span)', html)
-                results.append( [i,data[2].lstrip(), "-", data[3].lstrip(), data[4].lstrip(), data[0].lstrip(), "MSC"] )
+
+                results.append( [i, size, data[2].lstrip(), "-", data[3].lstrip(), data[4].lstrip(), data[0].lstrip(), "MSC"] )
                 with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
                  json.dump(results, outfile)
 
@@ -98,3 +104,5 @@ def msc_search(search):
     os.system("killall -v firefox > /dev/null 2>&1 || true")
     pauze.sleep(1)
     os.system("killall -v geckodriver > /dev/null 2>&1 || true")
+
+#msc_search( ["MEDU8626230"] )

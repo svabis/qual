@@ -49,8 +49,8 @@ def control():
             try:
 
 # !!!!! CHANGE XLSX FILE LOCATION !!!!!
-              print
-#              os.system("rm /home/svabis/web/utils/pin_submit/pin_temp/*")
+#              print
+              os.system("rm /home/svabis/web/utils/pin_submit/pin_temp/*")
 
             except:
               pass
@@ -58,7 +58,7 @@ def control():
             f = open("/www/kuvalda/static/cont/pin_progress.json","w")
             f.write('{"progress": "100"}\r\n')
             f.close()
-            print "RESET - DONE"
+#            print "RESET - DONE"
 
 
          # PROCESS PIN

@@ -1,0 +1,167 @@
+{% extends 'map_main.html' %}
+
+{% block style %}
+
+ #side-menu { position: absolute; z-index:1000; left:5px; }
+ #right-menu { position: absolute; z-index:1000; right:5px; }
+ #map-div { position: absolute; z-index:0; }
+ #cityname { position: absolute; z-index:2000; right:25px; bottom:25px; }
+
+ #DelModal { z-index:9999; }
+
+ label { margin-bottom:0px; }
+ ul { list-style:none; padding:0px; }
+ ul li { display:inline; margin-left:20px; margin-right:20px; }
+ .input-group-addon { border:none; background-color:inherit; font-weight:bold; }
+
+ .errorlist { background-color:#bbb; color:red; }
+
+  #osm-map { background-color: lightblue; height: 99vh; max-height: 99vh; max-width: 99vw; z-index:0;
+{% if edit %} border: solid red 2px;{% else %} border: solid black 1px;{% endif %} }
+
+ .btn { min-width:100%; }
+
+ .autocomplete { position: relative; display: inline-block; z-index:1000; }
+ .autocomplete-items { position: absolute; border: 1px solid #d4d4d4; border-bottom: none; border-top: none; z-index: 99; top: 100%; left: 0; right: 0; }
+ .autocomplete-items div { padding: 10px; cursor: pointer; background-color: #fff; border-bottom: 1px solid #d4d4d4; }
+ .autocomplete-items div:hover { background-color: #e9e9e9; }
+ .autocomplete-active { background-color: DodgerBlue !important; color: #ffffff; }
+{% endblock %}
+
+
+
+
+
+
+
+{% block javascript %}
+ <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+ <link href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" rel="stylesheet"/>
+
+<script>
+{# <!-- "SEARCH" --> #}
+function autocomplete(inp, arr) {
+  var currentFocus; inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value; closeAllLists(); if (!val) { return false; }
+      currentFocus = -1; a = document.createElement("DIV"); a.setAttribute("id", this.id + "autocomplete-list"); a.setAttribute("class", "autocomplete-items");
+      this.parentNode.appendChild(a); for (i = 0; i < arr.length; i++) {
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          b = document.createElement("DIV"); b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length); b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          b.addEventListener("click", function(e) { inp.value = this.getElementsByTagName("input")[0].value; closeAllLists(); }); a.appendChild(b);
+        }
+      }
+  });
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list"); if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) { currentFocus++; addActive(x); } else if (e.keyCode == 38) { currentFocus--; addActive(x);
+      } else if (e.keyCode == 13) { e.preventDefault(); if (currentFocus > -1) { if (x) x[currentFocus].click(); } }
+  });
+  function addActive(x) {
+    if (!x) return false; removeActive(x); if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1); x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    for (var i = 0; i < x.length; i++) { x[i].classList.remove("autocomplete-active"); }
+  }
+  function closeAllLists(elmnt) {
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) { x[i].parentNode.removeChild(x[i]); }
+    }
+  }
+  document.addEventListener("click", function (e) { closeAllLists(e.target); });
+}
+
+
+
+{# <!-- "Starting GPS coordinates" --> #}
+var map;
+{# <!-- starting latitude/longitude --> #}
+var xy = ['{{ city.lat }}', '{{ city.lon }}']; 
+{# <!-- starting zoom --> #}
+let zoom = {{ city.zoom }};
+{# <!-- Marker--> #}
+var taget;
+
+{# <!-- "GET LOCATION FROM GPS" --> #}
+function getLocation() {
+  var element = document.getElementById("osm-map");
+  if (navigator.geolocation) {
+    zoom = 18; navigator.geolocation.getCurrentPosition(setPosition);
+  } else {
+    alert( "Geolocation is not supported by this device." ); element.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+{# <!-- "translate geolocation object to coords and transit to map" --> #}
+function setPosition(position) {
+  lat = position.coords.latitude; lon = position.coords.longitude; var temp_target = L.latLng( lat, lon);
+  map.setView(temp_target, zoom); map.removeLayer(target); target = L.marker(temp_target).addTo(map);
+  $("#id_lat").val(lat); $("#id_lon").val(lon);
+}
+
+{# <!--"MAP __init__" --> #}
+function showMap(val) {
+ {# <!--"RESET MAP IF NEEDED" --> #}
+  try { map.remove(); } catch (err) {}
+//  var element = document.getElementById("osm-map"); map = L.map(element{% if edit %}, {zoomControl:false}{% endif %});
+  var element = document.getElementById("osm-map"); map = L.map(element, {zoomControl:false});
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { maxZoom: 19, minZoom: 8,
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  var temp_target = L.latLng( val ); map.setView(temp_target, zoom); target = L.marker(temp_target).addTo(map);
+
+{# <OUTPUTS NO DB> #}
+{% for d in data %}
+  var temp = L.circle( [ '{{d.lat}}' , '{{d.lon}}' ], {color:'{{ d.radio }}', fillColor:'{{ d.radio }}', fillOpacity:0.5, radius:6}).addTo(map);
+{% if edit %}{% else %}
+  temp.bindTooltip( "{{ d.mark }}" );
+  temp.bindPopup( "<a href='/mapplot/plot/{{d.id}}/'><b>{{ d.mark }}</b></a><br>{{ d.get_radio_display }}<br>{%if d.chk_1%}OLD<br>{%endif%}{%if d.chk_2%}LED<br>{%endif%}{%if d.chk_3%}Konsole{%endif%}" );
+{% endif %}{% endfor %}
+
+{# <Click events> #}
+  map.on('click', function(e) {
+    $("#id_lat").val(e.latlng.lat); $("#id_lon").val(e.latlng.lng);
+{% if edit %}{% else %}
+    map.panTo([e.latlng.lat, e.latlng.lng]);
+{% endif %}
+    map.removeLayer(target);
+    target = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+  });
+
+{# <initial zoom&location + update on map move> #}
+  $("#id_zoom").val( map.getCenter().lat + ":" + map.getCenter().lng + ":" + map.getZoom() );
+{% if edit %}
+  map.dragging.disable();
+{% else %}
+  map.on('move', function(e) { $("#id_zoom").val( map.getCenter().lat + ":" + map.getCenter().lng + ":" + map.getZoom() ); });
+{% endif %}
+}
+
+{# <Cepumi> #}
+function getCookie(name) { var value = "; " + document.cookie; var parts = value.split("; " + name + "="); if (parts.length == 2) return parts.pop().split(";").shift(); }
+$(document).ready(function () {
+  radio_chk();
+
+{% if edit %}
+  zoom = 18; showMap( [{{ edit.lat }}, {{ edit.lon }}] );
+{% else %}
+  if ( getCookie('view') ) { 
+    var t = getCookie('view').replace('"','').replace('"','').split(":"); 
+    console.log( t );
+    var loc = [t[0], t[1]]; zoom = t[2]; showMap(loc);  } else { showMap( xy ); }
+{% endif %}
+
+});
+
+{# <EDIT SET ATTRIBUTES TO INPUT FIELD> #}
+{% if edit %}
+$(document).ready(function () { $("#id_mark").attr('readonly', true); });
+
+var b = true;function blink(){ if (b){ $("#osm-map").css("border-color", "red"); b=false; } else { $("#osm-map").css("border-color", "#ddd"); b=true; } }
+//var b = true;function blink(){ if (b){ $("#osm-map").css("border-color", "red"); b=false; } else { $("#osm-map").css("border-color", "black"); b=true; } }
+$(document).ready(function () { setInterval( function(){ blink(); }, 800); });
+
+{% endif %}
+</script>
+{% endblock %}

@@ -1,0 +1,195 @@
+{% extends 'plot_js.html' %}
+
+{% block content %}
+{# <!--DELETE MODAL START--> #}
+{% if edit %}
+<div class="modal fade" id="DelModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" style="margin-top: 100px"><div class="modal-content">
+<div class="modal-header">
+ <h3 style="margin-top:5px; margin-bottom:5px;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;Dzēst punktu</h3>
+</div>
+<div class="modal-footer">
+ <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+   <a href="/mapplot/plot/del/{{ edit.id }}/">
+    <button class="btn btn-danger" type="submit">Dzēst</button>
+   <a>
+ </div>
+ <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+ <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+  <button type="button" class="btn btn-success" data-dismiss="modal">Atcelt</button>
+ </div>
+</div></div></div>
+ </form>
+</div>
+{% endif %}
+{# <!--DELETE MODAL END--> #}
+
+
+
+<b id="cityname" class="text-danger">{{ city.name }}</b>
+
+{# <!--PAGE CONTENT START--> #}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="map-div">
+  <center><div id="osm-map"></div></center>
+</div>
+{# <!--PAGE CONTENT END--> #}
+
+
+
+
+
+
+{# <!--LEFT MENU BAR START--> #}
+<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2" id="side-menu">
+<center>
+
+<form action="/mapplot/plot/{% if edit %}{{ edit.id }}/{% endif %}" method=POST id="mapform">
+
+ <div class="form-group" style="margin-top:5px; margin-bottom:9px;">
+  <a href="#" onclick="getLocation()">
+   <button type="button" class="btn btn-warning" style="width:40%; min-width:40%;max-width:40%;float:left;">
+    <span class="glyphicon glyphicon glyphicon-globe" aria-hidden="true"></span> GPS</button>
+  </a>
+  {{ form.lat }}
+  {{ form.lon }}
+ </div>
+
+
+ {% csrf_token %}
+ <input type="hidden" name="zoom" id="id_zoom">
+ {{ form.city }}
+ {{ form.device }}
+<script>
+$("#id_device").val( "{{ device }}" );
+</script>
+
+{% if edit%}
+ <div class="input-group">
+  <span class="input-group-addon">ID:</span>
+  {{ form.mark }}
+  {{ form.mark.errors }}
+{% if error %}  <ul class="errorlist"><li>{{ error }}</li></ul>{% endif %}
+  <span class="input-group-btn">
+  <button class="btn btn-danger" type="button" onclick="$('#id_mark').attr('readonly', false);">
+   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+  </span>
+ </div>
+{% else %}
+ <div class="input-group">
+  <span class="input-group-addon">ID:</span>
+  {{ form.mark }}
+  {{ form.mark.errors }}
+{% if error %}  <ul class="errorlist"><li>{{ error }}</li></ul>{% endif %}
+ </div>
+{% endif %}
+
+{% if form.mark.errors %}
+<script>
+$("#id_mark").css("border-color", "red;");
+</script>
+{% endif %}
+
+
+
+{# <div id="hiden_chk" style="margin-top:88px; display:none;"></div> #}
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+ <div class="form-group" id="chk_div">
+   <label>OLD</label>
+   {{ form.chk_1 }}<br>
+ </div>
+  </div>
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+ <div class="form-group" id="chk_div">
+   <label>LED</label>
+   {{ form.chk_2 }}<br>
+ </div>
+  </div>
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+ <div class="form-group" id="chk_div">
+   <label>Konsole</label>
+   {{ form.chk_3 }}<br>
+ </div>
+  </div>
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+ <div class="form-group">
+   {{ form.radio }}
+ </div>
+  </div>
+
+</center>
+</div>
+{# <!--LEFT MENU BAR END--> #}
+
+
+
+
+
+
+
+{# <!--RIGHT MENU BAR START--> #}
+<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2" id="right-menu">
+<center>
+
+ <div class="form-group" style="margin-top:5px; margin-bottom:5px;">
+  <button type="submit" class="btn btn-success">
+   <span class="glyphicon glyphicon glyphicon-floppy-save" aria-hidden="true"></span> SAVE{% if edit %} CHANGES{% endif %}</button>
+ </div>
+
+</form>
+
+{% if edit %}
+ <div class="form-group" style="margin-top:5px; margin-bottom:5px;">
+  <a href="/mapplot/plot/">
+   <button type="button" class="btn btn-warning">
+    <span class="glyphicon glyphicon glyphicon-step-backward" aria-hidden="true"></span> CANCEL</button>
+  </a>
+ </div>
+
+ <div class="form-group">
+   <button type="button" class="btn btn-danger" onclick="$('#DelModal').modal('show');">
+    <span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> DELETE</button>
+ </div>
+
+ <div class="form-group">
+  <input type="file" accept="image/*" capture="camera" style="display: none">
+  <button type="button" class="btn btn-warning" id="camera">
+   <span class="glyphicon glyphicon glyphicon-camera" aria-hidden="true"></span>{# TAKE PHOTO#}</button>
+ </div>
+
+<script>
+$("#camera").click(function (){ $(this).parent().find("input").click(); });
+</script>
+
+{% else %}
+ <div class="form-group">
+  <form autocomplete="off" action="/mapplot/search/" method="POST">
+   {% csrf_token %}
+   <div class="autocomplete">
+    <input class="form-control" id="searchInput" type="text" name="search" placeholder="Search">
+   </div>
+    <button type="submit" class="btn btn-info">
+     <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> SEARCH</button>
+  </form>
+ </div>
+
+<script>
+{# <!-- An array containing all the country names in the world: --> #}
+var countries = [{% for d in data %}"{{ d.mark }}", {% endfor %}];
+{# <!-- initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values: --> #}
+autocomplete(document.getElementById("searchInput"), countries);
+</script>
+{% endif %}
+
+
+<b>{{ test }}</b>
+<b>{{ edit }}</b>
+<b>{{ device }}</b>
+
+
+</center>
+</div>
+{# <!--RIGHT MENU BAR END--> #}
+
+
+{% endblock %}
+

@@ -53,7 +53,7 @@ def main(request, pageid=1):
 
     response = render(request, 'gal_grid.html', args)
 # SET page_location COOKIE
-    response.set_cookie( key='page_location', value='/galery/' + str(pageid) +'/' )
+    response.set_cookie( key='page_location', value='/gallery/' + str(pageid) +'/' )
     return response
 
 # ===============================================================================================================================

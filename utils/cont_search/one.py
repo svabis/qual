@@ -42,14 +42,14 @@ def one_search(search):
         element = WebDriverWait(driver, 20).until( EC.presence_of_element_located((By.ID, "ctrack-field")) )
     except TimeoutException:
         for _ in search:
-          results.append( ["TIMEOUT", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
+          results.append( ["TIMEOUT", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
         with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
           json.dump(results, outfile)
         return
 
     except NoSuchElementException:
         for _ in search:
-          results.append( ["NO_ELEMENT", "ctrack-field", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
+          results.append( ["NO_ELEMENT", "ctrack-field", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
         with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
           json.dump(results, outfile)
         return
@@ -62,26 +62,37 @@ def one_search(search):
         element.send_keys( search[0] )
         element.send_keys(Keys.RETURN)
 
-        pauze.sleep(5)
-# ============= start second tab ===================
-        driver.close()
-        driver.switch_to.window( driver.window_handles[0] )
+        pauze.sleep(10)
 
-#        driver.switch_to.window( driver.window_handles[1] )
-        pauze.sleep(20)
+# ============= start second tab ===================
+        print( len(driver.window_handles) )
+        driver.close()
+
+        driver.switch_to.window( driver.window_handles[0] )
+#        driver.switch_to.window( driver.window_handles[-1] )
+
+        print( len(driver.window_handles) )
+#        try:
+#            driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.TAB)
+#            driver.switch_to.window( driver.window_handles[-1] )
+#            driver.switch_to.window( driver.window_handles[0] )
+#        except:
+#            driver.quit()
+#            print( "NAV!" )
+        pauze.sleep(10)
 
     try:
         element = WebDriverWait(driver, 20).until( EC.presence_of_element_located((By.ID, "btnSearch")) )
     except TimeoutException:
         for _ in search:
-          results.append( ["TIMEOUT", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
+          results.append( ["TIMEOUT", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
         with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
           json.dump(results, outfile)
         return
 
     except NoSuchElementException:
         for _ in search:
-          results.append( ["NO_ELEMENT", "btnSearch", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
+          results.append( ["NO_ELEMENT", "btnSearch", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
         with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
           json.dump(results, outfile)
         return
@@ -103,13 +114,13 @@ def one_search(search):
             element.click()
             pauze.sleep(1)
         except:
-            results.append( ["NO_ELEMENT", "searchType", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
+            results.append( ["NO_ELEMENT", "searchType", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ONE"] )
             with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
               json.dump(results, outfile)
             return
 
         finally:
-            temp = [i, "NO_DATA", "-", "-", "-", "-", "ONE"]
+            temp = [i, "NO_DATA", "-", "-", "-", "-", "-", "ONE"]
 
            # fill form and submit
             element = driver.find_element_by_name("searchName")
@@ -123,6 +134,13 @@ def one_search(search):
             pauze.sleep(8)
             html = driver.page_source
             html = html.replace("&nbsp;", " ")
+
+           # CONTAINER SIZE
+            try:
+                size = driver.find_element_by_xpath("//div[@id='statusInfo']/table/tbody/tr[1]/td[3]").get_attribute("innerHTML")
+                size = size.split("<br>")[1].split("'")[0]
+            except:
+                size = "---"
 
             try:
                 table_id = driver.find_element_by_css_selector("table#sailing tbody")
@@ -139,8 +157,30 @@ def one_search(search):
                   d = unicodedata.normalize('NFKD', r.text).encode('ascii','ignore')
                   data.append( d )
 
-                print [i, data[-1].split(" ")[1], data[-1].split(" ")[2], data[-5], data[-1].split(" ")[0], data[-2], "ONE"]
-                results.append( [i,data[-1].split(" ")[1], data[-1].split(" ")[2], data[-5], data[-1].split(" ")[0], data[-2], "ONE"] )
+               # DATE & TIME
+                try:
+
+                    date = ""
+                    time = ""
+                    datv = ""
+
+                    tr = driver.find_elements_by_xpath("//div[@id='detailInfo']/table/tbody/tr")
+                    for e in tr:
+                        td  = e.find_elements_by_css_selector("td")[2].get_attribute("innerHTML")
+                        tdx = e.find_elements_by_css_selector("td")[3].get_attribute("innerHTML")
+                        if td.startswith( "RIGA" ):
+                            date = tdx.split(">")[2].split(" ")[1]
+                            time = tdx.split(">")[2].split(" ")[2]
+                            datv = tdx.split(">")[1].split("<")[0]
+                            break
+                except:
+                    date = data[-1].split(" ")[1]
+                    time = data[-1].split(" ")[2]
+                    datv = data[-1].split(" ")[0]
+
+               # RESULTS
+#                print [i, size, date, time, data[-5], datv, data[-2], "ONE"]
+                results.append( [i, size, date, time, data[-5], datv, data[-2], "ONE"] )
                 with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
                   json.dump(results, outfile)
 
@@ -157,4 +197,4 @@ def one_search(search):
     os.system("killall -v geckodriver > /dev/null 2>&1 || true")
 
 
-#one_search( ["FCIU5691055", "TGBU5146457"] )
+#one_search( ["DRYU4299382", "NYKU4961366", "NYKU4941776", "TCLU9468433", "GLDU9364025", "KKTU8076330", "MOAU1412037", "DRYU4250340", "TEMU2542794", "KKTU8261195", "TEMU0180612"] )

@@ -56,6 +56,10 @@ INSTALLED_APPS = (
     'animal',
     'loginsys',
     'statistic',
+
+# MAPPlot
+    'mapplot',
+
 # mobile
     'mobile',
 # REST API
@@ -67,6 +71,8 @@ INSTALLED_APPS = (
 # GCM
     'gcm',
     'django_cleanup', # MEDIA FILES DELETE /SHOULD BE AT THE END/
+
+    'django_user_agents',
 )
 
 #GCM
@@ -111,6 +117,7 @@ MIDDLEWARE_CLASSES = (
 # FOR LAST SEEN MIDLEWARE CLASS
     'main.last_seen.SetLastVisitMiddleware',
 #    'django.contrib.sites.middleware.CurrentSiteMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 )
 
 ROOT_URLCONF = 'main.urls'
@@ -123,10 +130,12 @@ TEMPLATES = [
 		'/home/svabis/web/kamera/template',
 		'/home/svabis/web/loginsys/template',
 		'/home/svabis/web/galerija/template',
+		'/home/svabis/web/mapplot/template',
 #		'/www/kuvalda/template',
 #		'/www/kuvalda/galerija/template',
 #		'/www/kuvalda/kamera/template',
 #		'/www/kuvalda/loginsys/template',
+#		'/www/kuvalda/mapplot/template',
 		],
         'APP_DIRS': True,
         'OPTIONS': {

@@ -22,6 +22,8 @@ function progress() {
   $.post( "http://www.kuvalda.lv/pin_progress.json", new Date(), function(data, textStatus ) {
     $.each( data, function( key, val ) {
       $("#progressBar").html( val + "%" ); $("#progressBar").css("width", val + "%");
+      console.log( key );
+      console.log( val );
       items = []; var temp = resultCount;
         $.post( "http://www.kuvalda.lv/pin_results.json", new Date(), function(data, textStatus ) {
           data.forEach(function(el) {
@@ -39,8 +41,8 @@ $(document).ready(function(){
   runProgress();
 
   if ( $("#progressBar").css("width") != 100 ) {
-    $("#submitSearch").prop('disabled', 'disabled');
-    $("#submitUpload").prop('disabled', 'disabled');
+//    $("#submitSearch").prop('disabled', 'disabled');
+//    $("#submitUpload").prop('disabled', 'disabled');
   }
 
   $("#submitSearch").click(function(){

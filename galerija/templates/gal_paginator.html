@@ -1,5 +1,6 @@
 {% extends 'head.html' %}
 {% load staticfiles %}
+
 {% block paginator %}
 {% if images %}
 {% if paginator.visible %}
@@ -18,6 +19,7 @@
 {% endif %}
 {% endif %}
 {% endblock %}
+
 
 {% block javascript %}{% if images %}<script>
 document.onkeydown = function(evt) { evt = evt || window.event; switch (evt.keyCode) {

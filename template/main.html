@@ -13,9 +13,9 @@
  <meta property="og:description" content="Medības, Medību kameras, Mednieku forums, Automatizētā zvēru fotogrāfēšana, Meža zvēru attēlu galerija" />
  <meta property="og:site_name" content="{{ full_domain }}" />
  <meta property="og:type" content="website" />
- <meta property="og:image" content="http://{{ full_domain|lower }}{% static 'logo.JPG' %}" />
+ <meta property="og:image" content="https://{{ full_domain|lower }}{% static 'logo.JPG' %}" />
  <meta property="og:locale" content="en_US" />
- <meta property="og:url" content="http://{{ full_domain|lower }}/" />
+ <meta property="og:url" content="https://{{ full_domain|lower }}/" />
 
  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 
@@ -114,6 +114,24 @@ a#nav_back_arrow span, a#nav_next_arrow span { font-size:10em; opacity: 0.5; }
   {% endifequal %}
 {% endfor %}
 
+{# MAPPLOT #}
+{% for g in username.groups.all %}
+  {% ifequal g.name "map_admin" %}
+   <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">MAPPLOT
+    <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a target="_blank" href="/mapplot/plot/"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;&nbsp;Kartēšana</a></li>
+      <li><a target="_blank" href="/mapplot/city_add/"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp;&nbsp;Pilsētas</a></li>
+      <li><a target="_blank" href="/mapplot/plot/"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;&nbsp;Admin</a></li>
+    </ul>
+   </li>
+  {% endifequal %}
+  {% ifequal g.name "map_doer" %}
+   <li><a href="/mapplot/" target="_blank"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> &nbsp;MAPPLOT</a></li>
+  {% endifequal %}
+{% endfor %}
+
 {# ADMIN #}
 {% if username.is_superuser %}
    <li class="dropdown">
@@ -130,7 +148,7 @@ a#nav_back_arrow span, a#nav_next_arrow span { font-size:10em; opacity: 0.5; }
 
 {% for g in username.groups.all %}
   {% ifequal g.name "animal" %}
-  <li><a href="/animal/"><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> &nbsp;Animals</a></li>
+{#  <li><a href="/animal/"><span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> &nbsp;Animals</a></li> #}
   {% endifequal %}
 {% endfor %}
 

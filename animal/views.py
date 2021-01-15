@@ -60,7 +60,7 @@ def animal_main(request):
         args['coords'] = AnimalCoords.objects.filter( a_img = img )
 
         response = render( request, 'animal_main.html', args )
-        response.set_cookie( key='page_loc', value='/animal/', path='/' )
+        response.set_cookie( key='page_location', value='/animal/', path='/' )
         return response
 
     return redirect('/auth/login/')
@@ -109,7 +109,7 @@ def animal_coords(request, img_nr):
 
 
         response = render( request, 'animal_coords.html', args )
-        response.set_cookie( key='page_loc', value='/animal/coords'+str(img_nr), path='/' )
+        response.set_cookie( key='page_location', value='/animal/coords'+str(img_nr), path='/' )
         return response
 
     return redirect('/auth/login/')

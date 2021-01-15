@@ -44,8 +44,8 @@ class Command(BaseCommand):
         imagelist = []  # array of pictures
 
        # If Camera AI enabled
-        if cam.kamera_ftp == True and cam.kamera_ai == True and len(os.listdir(path)) > 0:
-            os.system("/home/svabis/web/utils/ai/runner.sh " + path) # > /dev/null 2>&1 || true")
+#        if cam.kamera_ftp == True and cam.kamera_ai == True and len(os.listdir(path)) > 0:
+#            os.system("/home/svabis/web/utils/ai/runner.sh " + path) # > /dev/null 2>&1 || true")
 
        # SKIP ALL E-MAIL TRIGGERED CAMERAS
         if cam.kamera_ftp == False:
@@ -59,7 +59,7 @@ class Command(BaseCommand):
                  stat = os.stat(path + filename) # stat <-- file parameter object
                  c_date = datetime.datetime.fromtimestamp( stat.st_ctime ) # file creation time
                  tz = pytz.timezone('EET')       # Timezone info (image creation time does not include)
-                 create_date = c_date.replace(tzinfo=tz) # - datetime.timedelta( hours = dst( c_date.replace(tzinfo=tz) ))    # repalcing timezone info
+                 create_date = c_date #.replace(tzinfo=tz) # - datetime.timedelta( hours = dst( c_date.replace(tzinfo=tz) ))    # repalcing timezone info
 
 
         # IF FILE IS BEING CREATED

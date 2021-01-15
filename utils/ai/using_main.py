@@ -155,12 +155,12 @@ if __name__ == '__main__':
             sharp_neg_boxes = search_animal( detector, "SHARPENED NEGATIVE", working_dir + "temp6_sharp_neg.png", working_dir + "temp6_sharp_neg.png" )
 
            # CLEANUP
-#            os.remove( working_dir + "temp1.png" )
-#            os.remove( working_dir + "temp2_neg_clean.png" )
-#            os.remove( working_dir + "temp3_neg.png" )
-#            os.remove( working_dir + "temp4_sharp_clean.png" )
-#            os.remove( working_dir + "temp5_sharp.png" )
-#            os.remove( working_dir + "temp6_sharp_neg.png" )
+            os.remove( working_dir + "temp1.png" )
+            os.remove( working_dir + "temp2_neg_clean.png" )
+            os.remove( working_dir + "temp3_neg.png" )
+            os.remove( working_dir + "temp4_sharp_clean.png" )
+            os.remove( working_dir + "temp5_sharp.png" )
+            os.remove( working_dir + "temp6_sharp_neg.png" )
 
            # DRAW CUSTOM BOXES ON OUTPUT
             boxes = pos_boxes + neg_boxes + sharp_boxes + sharp_neg_boxes

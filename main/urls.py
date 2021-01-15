@@ -50,6 +50,8 @@ urlpatterns = [
 # CONTAINER_PIN
     url(r'^container_pin/', 'main.views.container_pin'),
 
+# MAPPLOT
+    url(r'^mapplot/', include('mapplot.urls')),
 
 # ANIMAL DETECTION
     url(r'^animal/', include('animal.urls')),

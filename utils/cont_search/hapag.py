@@ -44,13 +44,13 @@ def hapag_search(search):
             element = WebDriverWait(driver, 10).until( EC.presence_of_element_located((By.ID, "to-top")) )
             html = driver.page_source
         except TimeoutException:
-#            results.append( [i,"ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"] )
+#            results.append( [i, "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"] )
 #            with open("/www/kuvalda/static/results.json", 'wb') as outfile:
 #              json.dump(results, outfile)
             continue
 
         except NoSuchElementException:
-            results.append( [i,"ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"] )
+            results.append( [i, "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"] )
             continue
             with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
               json.dump(results, outfile)
@@ -59,11 +59,20 @@ def hapag_search(search):
             html = driver.page_source
             temp = []
             error = False
+
+            try:
+                size = driver.find_element_by_xpath("/html/body/div[4]/div[2]/div/div/div[1]/div/div/div/div[2]/form/div[5]/div[2]/div/div/table/tbody/tr/td/table/tbody/tr[1]/td/table/tbody/tr/td/div/table/tbody/tr/td[5]/table/tbody/tr/td[2]").get_attribute("innerHTML").split("'")[0]
+            except:
+                size = "---"
+
            # Last entry: "Discharge"
             try:
               info = re.search("(?<=Discharge)(.*?)(</td></tr></tbody></table>)", html).group(1)
               data = info.split("</span>")
               temp.append(i)
+
+              temp.append(size)
+
               temp.append(data[-5].split(">")[-1])
               temp.append(data[-4].split(">")[-1])
               temp.append(data[-3].split(">")[-1])
@@ -71,7 +80,7 @@ def hapag_search(search):
               temp.append(data[-6].split(">")[-1])
               temp.append("Hapag-Lloyd")
             except:
-              temp = [i,"ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"]
+              temp = [i, "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"]
               error = True
            # Last entry: "Vessel arrived"
             if error == True:
@@ -80,6 +89,9 @@ def hapag_search(search):
                   info = re.search("(?<=Vessel\s{1}arrived)(.*?)(</td></tr></tbody></table>)", html).group(1)
                   data = info.split("</span>")
                   temp.append(i)
+
+                  temp.append(size)
+
                   temp.append(data[-5].split(">")[-1])
                   temp.append(data[-4].split(">")[-1])
                   temp.append(data[-3].split(">")[-1])
@@ -87,7 +99,7 @@ def hapag_search(search):
                   temp.append(data[-6].split(">")[-1])
                   temp.append("Hapag-Lloyd")
                 except:
-                  temp = [i,"ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"]
+                  temp = [i, "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"]
                   error = True
            # Last entry: "Vesel arival"
             if error == True:
@@ -96,6 +108,9 @@ def hapag_search(search):
                   info = re.search("(?<=Vessel\s{1}arrival)(.*?)(</td></tr></tbody></table>)", html).group(1)
                   data = info.split("</span>")
                   temp.append(i)
+
+                  temp.append(size)
+
                   temp.append(data[-5].split(">")[-1])
                   temp.append(data[-4].split(">")[-1])
                   temp.append(data[-3].split(">")[-1])
@@ -103,7 +118,7 @@ def hapag_search(search):
                   temp.append(data[-6].split(">")[-1])
                   temp.append("Hapag-Lloyd")
                 except:
-                  temp = [i,"ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"]
+                  temp = [i, "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"]
 
             results.append( temp )
             with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
@@ -115,3 +130,5 @@ def hapag_search(search):
     os.system("killall -v firefox > /dev/null 2>&1 || true")
     pauze.sleep(1)
     os.system("killall -v geckodriver > /dev/null 2>&1 || true")
+
+#hapag_search( ["GESU3645245"] )

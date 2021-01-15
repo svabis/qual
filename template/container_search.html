@@ -36,7 +36,7 @@ function progress() {
         $.post( "http://www.kuvalda.lv/results.json", new Date(), function(data, textStatus ) {
           data.forEach(function(el) {
             resultCount++;
-            items.push( "<tr><td>" + el[0] + "</td><td>" + el[1] + "</td><td>" + el[2] + "</td><td>" + el[3] + "</td><td>" + el[4] + "</td><td>" + el[5] + "</td><td>" + el[6] + "</td></tr>" );
+            items.push( "<tr><td>"+ el[0] +"</td><td>"+ el[1] +"</td><td>"+ el[2] +"</td><td>"+ el[3] +"</td><td>"+ el[4] +"</td><td>"+ el[5] +"</td><td>"+ el[6] +"</td><td>"+ el[7] +"</td></tr>" );
         }, "json");
         if ( temp != resultCount ) { $("#resultTable").empty(); $("#resultTable").append( items ); }
       });
@@ -103,6 +103,7 @@ $(document).ready(function(){
 <table class="table table-hover table-striped table-condensed">
   <thead><tr>
     <th>Container</th>
+    <th>Size</th>
     <th>Date</th>
     <th>Time</th>
     <th>Ship</th>

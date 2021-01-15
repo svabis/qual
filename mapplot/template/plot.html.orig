@@ -1,0 +1,186 @@
+{% extends 'plot_js.html' %}
+
+{% block content %}
+{# <!--DELETE MODAL START--> #}
+{% if edit %}
+<div class="modal fade" id="DelModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" style="margin-top: 100px"><div class="modal-content">
+<div class="modal-header">
+ <h3 style="margin-top:5px; margin-bottom:5px;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;Dzēst punktu</h3>
+</div>
+<div class="modal-footer">
+ <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+   <a href="/mapplot/plot/del/{{ edit.id }}/">
+    <button class="btn btn-danger" type="submit">Dzēst</button>
+   <a>
+ </div>
+ <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+ <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+  <button type="button" class="btn btn-success" data-dismiss="modal">Atcelt</button>
+ </div>
+</div></div></div>
+ </form>
+</div>
+{% endif %}
+{# <!--DELETE MODAL END--> #}
+
+
+
+<b id="cityname" class="text-danger">{{ city.name }}</b>
+
+{# <!--PAGE CONTENT START--> #}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="map-div">
+  <center><div id="osm-map"></div></center>
+</div>
+{# <!--PAGE CONTENT END--> #}
+
+
+
+
+
+
+{# <!--LEFT MENU BAR START--> #}
+<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2" id="side-menu">
+<center>
+
+{% if edit %}
+ <div style="margin-top:39px;"></div>
+{% else %}
+ <div class="form-group" style="margin-top:5px; margin-bottom:5px;">
+  <a href="#" onclick="getLocation()">
+   <button type="button" class="btn btn-warning">
+    <span class="glyphicon glyphicon glyphicon-globe" aria-hidden="true"></span> GET GPS DATA</button>
+  </a>
+ </div>
+{% endif %}
+
+<form action="/mapplot/plot/{% if edit %}{{ edit.id }}/{% endif %}" method=POST id="mapform">
+
+ {% csrf_token %}
+ <input type="hidden" name="zoom" id="id_zoom">
+ {{ form.city }}
+
+{% if edit%}
+ <div class="input-group">
+  <span class="input-group-addon">ID:</span>
+  {{ form.mark }}
+  {{ form.mark.errors }}
+{% if error %}  <ul class="errorlist"><li>{{ error }}</li></ul>{% endif %}
+  <span class="input-group-btn">
+  <button class="btn btn-danger" type="button" onclick="$('#id_mark').attr('readonly', false);">
+   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+  </span>
+ </div>
+{% else %}
+ <div class="input-group">
+  <span class="input-group-addon">ID:</span>
+  {{ form.mark }}
+  {{ form.mark.errors }}
+{% if error %}  <ul class="errorlist"><li>{{ error }}</li></ul>{% endif %}
+ </div>
+{% endif %}
+
+{% if form.mark.errors %}
+<script>
+$("#id_mark").css("border-color", "red;");
+</script>
+{% endif %}
+
+ <div class="form-group" style="margin-bottom:40px;">
+  {{ form.lat }}
+  {{ form.lon }}
+ </div>
+
+ <div class="form-group list-inline" style="margin-bottom:5px;">
+  {{ form.radio }}
+ </div>
+
+
+<script>
+function radio_chk(){
+ if ($("input[name='radio']:checked").val() == "red") { $("#chk_div").hide(); $("#hiden_chk").show(); } else { $("#chk_div").show(); $("#hiden_chk").hide(); }
+}
+$("#id_radio").on('change', function(){ radio_chk(); });
+</script>
+
+ <div id="hiden_chk" style="margin-top:88px; display:none;"></div>
+ <div class="form-group" id="chk_div">
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+   <label>OLD</label>
+   {{ form.chk_1 }}<br>
+  </div>
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+   <label>LED</label>
+   {{ form.chk_2 }}<br>
+  </div>
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+   <label>Konsole</label>
+   {{ form.chk_3 }}<br>
+  </div>
+ </div>
+
+</center>
+</div>
+{# <!--LEFT MENU BAR END--> #}
+
+
+
+
+
+
+
+{# <!--RIGHT MENU BAR START--> #}
+<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2" id="right-menu">
+<center>
+
+ <div class="form-group" style="margin-top:5px; margin-bottom:5px;">
+  <button type="submit" class="btn btn-success">
+   <span class="glyphicon glyphicon glyphicon-floppy-save" aria-hidden="true"></span> SAVE{% if edit %} CHANGES{% endif %}</button>
+ </div>
+
+</form>
+
+{% if edit %}
+ <div class="form-group">
+  <a href="/mapplot/plot/">
+   <button type="button" class="btn btn-warning">
+    <span class="glyphicon glyphicon glyphicon-step-backward" aria-hidden="true"></span> CANCEL</button>
+  </a>
+ </div>
+
+ <div class="form-group">
+   <button type="button" class="btn btn-danger" onclick="$('#DelModal').modal('show');">
+    <span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> DELETE</button>
+ </div>
+{% else %}
+ <div class="form-group">
+  <form autocomplete="off" action="/mapplot/search/" method="POST">
+   {% csrf_token %}
+   <div class="autocomplete">
+    <input class="form-control" id="searchInput" type="text" name="search" placeholder="Search">
+   </div>
+    <button type="submit" class="btn btn-info">
+     <span class="glyphicon glyphicon glyphicon-search" aria-hidden="true"></span> SEARCH</button>
+  </form>
+ </div>
+
+<script>
+{# <!-- An array containing all the country names in the world: --> #}
+var countries = [{% for d in data %}"{{ d.mark }}", {% endfor %}];
+{# <!-- initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values: --> #}
+autocomplete(document.getElementById("searchInput"), countries);
+</script>
+{% endif %}
+
+
+<b>{{ test }}</b>
+<b>{{ edit }}</b>
+
+
+</center>
+</div>
+{# <!--RIGHT MENU BAR END--> #}
+
+
+{% endblock %}
+
