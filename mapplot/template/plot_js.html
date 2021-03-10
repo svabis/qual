@@ -5,9 +5,11 @@
  #side-menu { position: absolute; z-index:1000; left:5px; }
  #right-menu { position: absolute; z-index:1000; right:5px; }
  #map-div { position: absolute; z-index:0; top:5px; }
- #cityname { position: absolute; z-index:2000; right:25px; bottom:25px; }
+ #cityname { position: absolute; z-index:2000; right:25px; bottom:25px; margin:0px; }
 
  #DelModal { z-index:9999; }
+ #ImageModal { z-index:9999; }
+ #img_preview {  max-width:100%; max-height:100%; }
 
  label { margin-bottom:0px; }
  ul { list-style:none; padding:0px; }
@@ -74,6 +76,8 @@ function autocomplete(inp, arr) {
 }
 
 
+{# <!-- POINT IMAGE PREVIEW --> #}
+function imgPrev(val){ $("#ImageModal").modal("show"); $("#img_preview").attr("src", val); console.log(val); }
 
 {# <!-- "Starting GPS coordinates" --> #}
 var map;
@@ -113,12 +117,18 @@ function showMap(val) {
 
 {# <OUTPUTS NO DB> #}
 {% for d in data %}
-  var temp = L.circle( [ '{{d.lat}}' , '{{d.lon}}' ], {color:'{{ d.radio }}', fillColor:'{{ d.radio }}', fillOpacity:0.5, radius:6}).addTo(map);
+
+  var temp = new L.circleMarker([ '{{d.lat}}' , '{{d.lon}}' ],{ radius: {{ d.radio.size }}*2.2, stroke: true, color: '{{ d.radio.color }}', opacity: 1, weight: 2, fill: true, fillColor: '{{ d.radio.color }}', fillOpacity: 0.5}).addTo(map);
+//  var temp = L.circle( [ '{{d.lat}}' , '{{d.lon}}' ], {color:'{{ d.radio.color }}', fillColor:'{{ d.radio.color }}', fillOpacity:0.5, radius:{{ d.radio.size }}}).addTo(map);
+
 {% if edit %}{% else %}
 {% if mobile_browser == False and tablet_browser == False %}
   temp.bindTooltip( "{{ d.mark }}" );
 {% endif %}
-  temp.bindPopup( "<a href='/mapplot/plot/{{d.id}}/'><b>{{ d.mark }}</b></a><br>{{ d.get_radio_display }}<br>{%if d.chk_1%}OLD<br>{%endif%}{%if d.chk_2%}LED<br>{%endif%}{%if d.chk_3%}Konsole{%endif%}" );
+  var text = "<center><a href='/mapplot/plot/{{d.id}}/'><b>{{ d.mark }}</b></a><br>{{ d.radio.name }}<br>{%if d.chk_1%}OLD<br>{%endif%}{%if d.chk_2%}LED<br>{%endif%}{%if d.chk_3%}Console<br>{%endif%}";
+{% for i in d.image.all %} text += " <span class='glyphicon glyphicon-paperclip' onclick='imgPrev(&#39; {{ i.image.url|safe }} &#39;);'></span> "; {% endfor %}
+  text = text + "</center>";
+  temp.bindPopup( text );
 {% endif %}{% endfor %}
 
 {# <Click events> #}
@@ -150,7 +160,6 @@ $(document).ready(function () {
 {% else %}
   if ( getCookie('view') ) { 
     var t = getCookie('view').replace('"','').replace('"','').split(":"); 
-    console.log( t );
     var loc = [t[0], t[1]]; zoom = t[2]; showMap(loc);  } else { showMap( xy ); }
 {% endif %}
 

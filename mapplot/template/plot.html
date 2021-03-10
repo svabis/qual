@@ -19,14 +19,22 @@
   <button type="button" class="btn btn-success" data-dismiss="modal">Atcelt</button>
  </div>
 </div></div></div>
- </form>
 </div>
 {% endif %}
 {# <!--DELETE MODAL END--> #}
 
+{# <!--IMAGE MODAL START--> #}
+<div class="modal fade" id="ImageModal" tabindex="-1" role="dialog" aria-hidden="true">
+ <div class="modal-dialog modal-lg">
+  <div class="modal-content"><img src="" id="img_preview"></div>
+  <div class="modal-footer"><button type="button" class="btn btn-warning" data-dismiss="modal">CLOSE</button></div>
+ </div>
+</div>
+{# <!-- IMAGE MODAL END--> #}
 
 
-<b id="cityname" class="text-danger">{{ city.name }}</b>
+
+<h3 id="cityname" class="text-danger"><b>{{ city.name }}</b></h3>
 
 {# <!--PAGE CONTENT START--> #}
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="map-div">
@@ -41,9 +49,9 @@
 
 {# <!--LEFT MENU BAR START--> #}
 <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2" id="side-menu">
-<center>
+{#<center>#}
 
-<form action="/mapplot/plot/{% if edit %}{{ edit.id }}/{% endif %}" method=POST id="mapform">
+<form action="/mapplot/plot/{% if edit %}{{ edit.id }}/{% endif %}" method=POST id="mapform" enctype="multipart/form-data">
 
  <div class="form-group" style="margin-top:5px; margin-bottom:9px;">
   <a href="#" onclick="getLocation()">
@@ -90,33 +98,32 @@ $("#id_mark").css("border-color", "red;");
 {% endif %}
 
 
-
 {# <div id="hiden_chk" style="margin-top:88px; display:none;"></div> #}
-  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
- <div class="form-group" id="chk_div">
+ <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+  <div class="form-group" id="chk_div">
    <label>OLD</label>
    {{ form.chk_1 }}<br>
- </div>
   </div>
-  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
- <div class="form-group" id="chk_div">
+ </div>
+ <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+  <div class="form-group" id="chk_div">
    <label>LED</label>
    {{ form.chk_2 }}<br>
- </div>
   </div>
-  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
- <div class="form-group" id="chk_div">
+ </div>
+ <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4">
+  <div class="form-group" id="chk_div">
    <label>Konsole</label>
    {{ form.chk_3 }}<br>
- </div>
   </div>
-  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
- <div class="form-group">
+ </div>
+ <div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="form-group-raw">
    {{ form.radio }}
- </div>
   </div>
+ </div>
 
-</center>
+{#</center>#}
 </div>
 {# <!--LEFT MENU BAR END--> #}
 
@@ -135,8 +142,6 @@ $("#id_mark").css("border-color", "red;");
    <span class="glyphicon glyphicon glyphicon-floppy-save" aria-hidden="true"></span> SAVE{% if edit %} CHANGES{% endif %}</button>
  </div>
 
-</form>
-
 {% if edit %}
  <div class="form-group" style="margin-top:5px; margin-bottom:5px;">
   <a href="/mapplot/plot/">
@@ -149,17 +154,46 @@ $("#id_mark").css("border-color", "red;");
    <button type="button" class="btn btn-danger" onclick="$('#DelModal').modal('show');">
     <span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> DELETE</button>
  </div>
+{% endif %}
 
+{% if edit %}
+ <div class="form-group" id="preview">
+ </div>
  <div class="form-group">
-  <input type="file" accept="image/*" capture="camera" style="display: none">
+  <input id="camera_input" name="camera" type="file"{# accept="image/*" capture="camera"#} style="display: none">
   <button type="button" class="btn btn-warning" id="camera">
-   <span class="glyphicon glyphicon glyphicon-camera" aria-hidden="true"></span>{# TAKE PHOTO#}</button>
+   <span class="glyphicon glyphicon glyphicon-camera" aria-hidden="true"></span> TAKE PHOTO</button>
  </div>
 
-<script>
-$("#camera").click(function (){ $(this).parent().find("input").click(); });
-</script>
+<style>
+  div#preview img { display: block; max-width: 40%; max-height: 40%; width: auto; height: auto; border:solid 1px black; float:left; margin-bottom:10px; }
+</style>
 
+<script>
+jQuery(document).ready(function($) {
+{# <!-- MULTIPLE IMAGE PREVIEW --> #}
+  var imagesPreview = function(input, gallery) {
+    $(gallery).empty();
+    if (input.files) {
+      var filesAmount = input.files.length;
+      for (i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = function(event) { $($.parseHTML('<img>')).attr("src", event.target.result).appendTo( gallery ); }
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  };
+{# <!-- PREVIEW TRIGER --> #}
+  $("#camera_input").on("change", function() { imagesPreview(this, "div#preview"); });
+{# <!-- PREVIEW TRIGER --> #}
+  $("#camera").click(function (){ $(this).parent().find("input").click(); });
+});
+</script>
+{% endif %}
+
+</form>
+
+{% if edit %}
 {% else %}
  <div class="form-group">
   <form autocomplete="off" action="/mapplot/search/" method="POST">
@@ -181,9 +215,9 @@ autocomplete(document.getElementById("searchInput"), countries);
 {% endif %}
 
 
-<b>{{ test }}</b>
-<b>{{ edit }}</b>
-<b>{{ device }}</b>
+ <b>{{ test }}</b>
+{# <b>{{ edit }}</b> #}
+{# <b>{{ device }}</b> #}
 
 
 </center>

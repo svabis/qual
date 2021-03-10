@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm
+
 from .models import MapPlot, MapPlotCity
+from .models import MapPlotType
+
 from django import forms
 
 
 # ======================================================================================
 class MapPlotForm(ModelForm):
 
-#    mark = forms.TextInput(required = True)
-
     class Meta:
         model = MapPlot
         fields = ['mark', 'city', 'device', 'lat', 'lon', 'radio', 'chk_1', 'chk_2', 'chk_3']
+
+#        ordering = ['radio__name']
 
         widgets = {
             'mark': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off'}),
@@ -23,7 +26,9 @@ class MapPlotForm(ModelForm):
 
             'device': forms.TextInput(attrs={'style':'display:none;'}),
 
-            'radio': forms.RadioSelect(attrs={'class': 'form-control'}),
+#            'radio': forms.RadioSelect(attrs={'class': 'form-control'}),
+            'radio': forms.RadioSelect(attrs={'class': 'form-check'}),
+
             'chk_1': forms.CheckboxInput(attrs={'class': 'form-control', 'style':'margin-left:0px;'}),
             'chk_2': forms.CheckboxInput(attrs={'class': 'form-control', 'style':'margin-left:0px;'}),
             'chk_3': forms.CheckboxInput(attrs={'class': 'form-control', 'style':'margin-left:0px;'}),

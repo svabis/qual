@@ -1,0 +1,19 @@
+{% extends 'map_main.html' %}
+
+
+{% block content %}
+<div style="margin-bottom:70px;"></div>
+ <div class="col-md-4 col-md-offset-4 col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3">
+   <center>          
+{% for d in data %}
+  <div class="form-group">
+    <button class="btn btn-info" onclick="select('{{ d.city.id }}')">{{ d.city }}</button>
+  </div>
+{% endfor %}
+   </center>          
+ </div>
+
+<form action="/mapplot/" method=POST id="city_select_form">{% csrf_token %}<input type="hidden" name="city" id="city"></form>
+<script>function select(val) { document.getElementById('city').value=val; document.forms[0].submit(); }</script>
+
+{% endblock %}

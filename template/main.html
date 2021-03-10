@@ -121,9 +121,9 @@ a#nav_back_arrow span, a#nav_next_arrow span { font-size:10em; opacity: 0.5; }
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">MAPPLOT
     <span class="caret"></span></a>
     <ul class="dropdown-menu">
-      <li><a target="_blank" href="/mapplot/plot/"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;&nbsp;Kartēšana</a></li>
+      <li><a target="_blank" href="/mapplot/"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;&nbsp;Kartēšana</a></li>
       <li><a target="_blank" href="/mapplot/city_add/"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp;&nbsp;Pilsētas</a></li>
-      <li><a target="_blank" href="/mapplot/plot/"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;&nbsp;Admin</a></li>
+      <li><a href="/mapplot/admin/"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;&nbsp;Admin</a></li>
     </ul>
    </li>
   {% endifequal %}
@@ -135,7 +135,7 @@ a#nav_back_arrow span, a#nav_next_arrow span { font-size:10em; opacity: 0.5; }
 {# ADMIN #}
 {% if username.is_superuser %}
    <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin sadaļa
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin
     <span class="caret"></span></a>
     <ul class="dropdown-menu">
       <li><a target="_blank" href="/admin9876/"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;&nbsp;Django</a></li>
@@ -153,7 +153,7 @@ a#nav_back_arrow span, a#nav_next_arrow span { font-size:10em; opacity: 0.5; }
 {% endfor %}
 
 {# SHOP/FORUM/MEDIA #}
-  <li><a href="http://forum.kuvalda.lv/"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> &nbsp;Forum</a></li>
+  <li><a href="#"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> &nbsp;Forum</a></li>
   <li><a href="#"><span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> &nbsp;Shop</a></li>
   <li class="active"><a href="/"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> &nbsp;Media</a></li>
 
@@ -251,6 +251,7 @@ function toggleChk () {
 {% block galerija %}{% endblock %}
 {% block animal %}{% endblock %}
 {% block logsys %}{% endblock %}
+{% block mapplot %}{% endblock %}
 
 </div>
 <b>{{ cam_type }}</b>

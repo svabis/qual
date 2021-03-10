@@ -1655,3 +1655,431 @@ JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 208: Error: 
 JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 208: Error: Invalid autocomplete selectedIndex
 JavaScript error: resource://gre/modules/LoginManagerChild.jsm, line 190: NS_ERROR_XPC_JAVASCRIPT_ERROR_WITH_DETAILS: [JavaScript Error: "Invalid autocomplete selectedIndex" {file: "resource://gre/actors/AutoCompleteChild.jsm" line: 208}]'[JavaScript Error: "Invalid autocomplete selectedIndex" {file: "resource://gre/actors/AutoCompleteChild.jsm" line: 208}]' when calling method: [nsIAutoCompletePopup::selectedIndex]
 1599860865086	Marionette	INFO	Stopped listening on port 46808
+1614887483001	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.GNxzN3yOoT5y"
+*** You are running in headless mode.
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:1798): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:1817): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:1864): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614887491101	Marionette	INFO	Listening on port 44407
+1614887491241	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614887543441	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1614887556119	Marionette	INFO	Stopped listening on port 44407
+1614887699746	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.MWEenarHOBnK"
+*** You are running in headless mode.
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:2085): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:2105): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:2147): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614887709359	Marionette	INFO	Listening on port 41945
+1614887709449	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614887772201	Marionette	INFO	Stopped listening on port 41945
+1614887974455	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.HbSFCd0mzSaM"
+*** You are running in headless mode.
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:2350): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:2369): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:2410): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614887981440	Marionette	INFO	Listening on port 35103
+1614887981678	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614888045257	Marionette	INFO	Stopped listening on port 35103
+1614888937539	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.jlmiYTgElC2H"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:15148): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:15167): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:15209): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614888948857	Marionette	INFO	Listening on port 42752
+1614888949062	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614889013339	Marionette	INFO	Stopped listening on port 42752
+1614889116980	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.1aQVIxZY0Nvo"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:15376): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:15395): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:15435): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614889124441	Marionette	INFO	Listening on port 41249
+1614889124509	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1614889221373	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.fihK1ZyxjwkW"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:15580): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:15599): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:15657): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614889230565	Marionette	INFO	Listening on port 36732
+1614889230833	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614889295682	Marionette	INFO	Stopped listening on port 36732
+1614889415707	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.ZeFvxXpiX3Y9"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:15883): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:15902): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:15940): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614889425074	Marionette	INFO	Listening on port 46745
+1614889425193	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614889457493	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614889490535	Marionette	INFO	Stopped listening on port 46745
+1614890214429	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.96eqTCaYw3ux"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:16348): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:16367): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:16417): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614890221644	Marionette	INFO	Listening on port 41007
+1614890221719	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1614890293585	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.a2ehscMv4Jvg"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:16562): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:16581): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:16627): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614890299031	Marionette	INFO	Listening on port 39567
+1614890299121	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1614890568061	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.sTjivTKimgdq"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:16987): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:17006): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:17051): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614890573775	Marionette	INFO	Listening on port 35334
+1614890573997	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614890638417	Marionette	INFO	Stopped listening on port 35334
+1614890714451	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.oz6YDwFv2y7M"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:17251): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:17270): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:17309): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614890720320	Marionette	INFO	Listening on port 41611
+1614890720421	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614890731755	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: resource://gre/modules/psm/RemoteSecuritySettings.jsm, line 789: NS_ERROR_ILLEGAL_VALUE: Component returned failure code: 0x80070057 (NS_ERROR_ILLEGAL_VALUE) [nsIXPCComponents_Utils.reportError]
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1614891023633	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.MRaW2QEB7jrq"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:17556): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:17575): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:17615): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614891030510	Marionette	INFO	Listening on port 38826
+1614891030600	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614891053191	Marionette	INFO	Stopped listening on port 38826
+1614891351480	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.nNIhnVUvA5LG"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:17816): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:17835): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:17878): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614891357747	Marionette	INFO	Listening on port 42500
+1614891357855	Marionette	WARN	TLS certificate errors will be ignored for this session
+1614891360705	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614891380293	Marionette	INFO	Stopped listening on port 42500
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1614891447832	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.GveaCiz32Vzf"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:18024): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:18043): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:18105): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614891453431	Marionette	INFO	Listening on port 36496
+1614891453564	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1614891625024	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.7mfW1t0cPZAU"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:18303): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:18322): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:18361): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614891631912	Marionette	INFO	Listening on port 40460
+1614891631993	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1614891767686	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.Vpc6JLrTCeQy"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:18543): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:18562): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:18607): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614891773008	Marionette	INFO	Listening on port 40623
+1614891773163	Marionette	WARN	TLS certificate errors will be ignored for this session
+1614891776945	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1614891852807	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.YgY7LslSUSXK"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:18750): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:18769): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:18814): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614891858709	Marionette	INFO	Listening on port 34790
+1614891858852	Marionette	WARN	TLS certificate errors will be ignored for this session
+1614891862173	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614891881349	Marionette	INFO	Stopped listening on port 34790
+1614892030847	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.QkLaFpDoWUgD"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:18974): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:18993): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:19038): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614892036961	Marionette	INFO	Listening on port 45378
+1614892037116	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614892059986	Marionette	INFO	Stopped listening on port 45378
+1614894848995	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.h3dXxULxD7lL"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:20535): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:20554): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:20593): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614894856566	Marionette	INFO	Listening on port 39439
+1614894856679	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614894919494	Marionette	INFO	Stopped listening on port 39439
+1614894998071	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.jL40Of8z7Glx"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:20750): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:20769): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:20822): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614895005239	Marionette	INFO	Listening on port 39317
+1614895005414	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1614895077656	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.Y7pRS3HIUAOs"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:20982): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:21001): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:21064): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614895084798	Marionette	INFO	Listening on port 37682
+1614895084885	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614895149522	Marionette	INFO	Stopped listening on port 37682
+1614895224748	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.11UNpVNlEQYT"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:21214): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:21233): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:21272): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614895232184	Marionette	INFO	Listening on port 42103
+1614895232361	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614895320275	Marionette	INFO	Stopped listening on port 42103
+1614895490598	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.GvMnqSBQQGFt"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:21538): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:21557): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:21600): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614895498031	Marionette	INFO	Listening on port 38661
+1614895498166	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614895568490	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1614895585454	Marionette	INFO	Stopped listening on port 38661
+1614948629907	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.qmvtWci6m70O"
+*** You are running in headless mode.
+[GFX1-]: glxtest: libEGL initialize failed
+[GFX1-]: glxtest: Unable to open a connection to the X server
+[GFX1-]: glxtest: libEGL initialize failed
+
+(/usr/lib/firefox/firefox:22467): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:22481): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+
+(/usr/lib/firefox/firefox:22538): GLib-GObject-CRITICAL **: g_object_set: assertion 'G_IS_OBJECT (object)' failed
+1614948636105	Marionette	INFO	Listening on port 43233
+1614948636259	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+JavaScript error: http://www.cma-cgm.com/bundles/Tracking-EndToEnd?v=a4zdLvJfp-bCk3M8CYuJU7kx2gVZyMJU2hSDKyhyPWw1, line 1: TypeError: n is undefined
+1614948722976	Marionette	INFO	Stopped listening on port 43233

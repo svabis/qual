@@ -19,13 +19,13 @@ var items = [];
 function runProgress() { progressbar = setInterval( function(){ progress() }, 5000 ); }
 
 function progress() { 
-  $.post( "http://www.kuvalda.lv/pin_progress.json", new Date(), function(data, textStatus ) {
+  $.post( "https://www.kuvalda.lv/pin_progress.json", new Date(), function(data, textStatus ) {
     $.each( data, function( key, val ) {
       $("#progressBar").html( val + "%" ); $("#progressBar").css("width", val + "%");
       console.log( key );
       console.log( val );
       items = []; var temp = resultCount;
-        $.post( "http://www.kuvalda.lv/pin_results.json", new Date(), function(data, textStatus ) {
+        $.post( "https://www.kuvalda.lv/pin_results.json", new Date(), function(data, textStatus ) {
           data.forEach(function(el) {
             resultCount++;
             items.push( "<tr><td>" + el[1] + "</td><td>;" + el[0] + "</td><td>" + el[2] + "</td></tr>" );
@@ -47,7 +47,7 @@ $(document).ready(function(){
 
   $("#submitSearch").click(function(){
     $("#searchData").empty(); 
-    $.post("http://www.kuvalda.lv/pin_container.php", {
+    $.post("https://www.kuvalda.lv/pin_container.php", {
       data: "PROCESS", date: moment().format('YYYY-MM-DD HH:mm:ss'), 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value },
         function(data,status){
           $("#searchData").append( moment().format('YYYY-MM-DD HH:mm') +"<br>");
@@ -62,7 +62,7 @@ $(document).ready(function(){
 
   $("#clear").click(function(){
     $("#searchData").empty(); 
-    $.post("http://www.kuvalda.lv/pin_container.php", {
+    $.post("https://www.kuvalda.lv/pin_container.php", {
       data: "RESET", date: moment().format('YYYY-MM-DD HH:mm:ss'), 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value },
         function(data,status){
           $("#searchData").empty(); 
@@ -77,7 +77,7 @@ $(document).ready(function(){
 </script>
 
 
-<form action="http://www.kuvalda.lv/pin_upload.php" method="post" enctype="multipart/form-data">{% csrf_token %}
+<form action="https://www.kuvalda.lv/pin_upload.php" method="post" enctype="multipart/form-data">{% csrf_token %}
  <div class="container" style="margin-top: 20px;">
    <div class="form-group">
     <input class="btn btn-success" type="file" name="fileToUpload" id="fileToUpload" style="margin-bottom: 10px;">

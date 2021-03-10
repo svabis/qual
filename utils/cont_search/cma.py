@@ -1,80 +1,124 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
+import re, os, datetime
 
-# CONTAINER CHECK
-import os # file system
-import re # regular expresions
-import mechanize # browser
-import cookielib # browser cookies
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
+
+from selenium.webdriver import FirefoxOptions
 
 import json
 
-from time import sleep
+gecko_path = '/bin/'
 
-# ========================================= Browser ========================================
-# CMA
+
+# !!!!! search maersk !!!!!
 def cma_search(search):
-    # Browser
-    br = mechanize.Browser()
-    # Cookie Jar
-    cj = cookielib.LWPCookieJar()
-    br.set_cookiejar(cj)
-    # Browser options
-    br.set_handle_equiv(True)
-    br.set_handle_gzip(True)
-    br.set_handle_redirect(True)
-    br.set_handle_referer(True)
-    br.set_handle_robots(False)
-    # Follows refresh 0 but not hangs on refresh > 0
-    br.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
-    # User-Agent (this is cheating, ok?)
-    br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+    import time as pauze
+    cma_url = "http://www.cma-cgm.com/ebusiness/tracking/search"
 
-    cma_url = ["http://www.cma-cgm.com/ebusiness/tracking/search?SearchBy=Container&Reference=","&search=Search"]
+    os.system("killall -v firefox > /dev/null 2>&1 || true")
+    pauze.sleep(1)
+    os.system("killall -v geckodriver > /dev/null 2>&1 || true")
+    pauze.sleep(2)
+
+   # start new browser
+    opts = FirefoxOptions()
+    opts.add_argument( "--headless" )
+
+    driver = webdriver.Firefox( gecko_path, firefox_options=opts )
+
     results = []
-
+   # start checking process...
     for i in search:
-        r = br.open(cma_url[0] + i + cma_url[1])
-        html = r.read()
-       # NOT FOUND
-        temp = re.search("(\<h2>No\s{1}Results</h2>)", html)
-        if temp:
-            results.append( [i, "-", "-", "-", "-", "-", "CMA CGM"] )
+        driver.get( cma_url )
+#        pauze.sleep(5)
+        try:
+            element = WebDriverWait(driver, 10).until( EC.presence_of_element_located((By.ID, "Reference")) )
+            html = driver.page_source
+        except TimeoutException:
+            results.append( [i, "TIMEOUT", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"] )
             with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
               json.dump(results, outfile)
-       # FOUND
-        else:
+            continue
+
+        except NoSuchElementException:
+            results.append( [i, "NO ELEMENT", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR"] )
+            with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
+              json.dump(results, outfile)
+            continue
+
+        finally:
+            temp = [i, "NO_DATA", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "CMA CGM"]
+
+           # fill form and submit
+            element = driver.find_element_by_name("Reference")
+            element.clear()
+            element.send_keys( i )
+            element.send_keys(Keys.RETURN);
+
+           # wait for results to load
+            pauze.sleep(5)
+#            print("clicked "+i)
+
             try:
-               # SIZE
-                size = re.findall('(?<="o-container-type">).*?(?=</abb)', html)[0].split(" ")[0]
+                element = WebDriverWait(driver, 15).until( EC.presence_of_element_located((By.ID, "c-footer")) )
+                html = driver.page_source
+            except TimeoutException:
+                pass
 
-               # DATE & TIME
-                date = re.findall("(\d{2}\s{1}[A-Z]\w{2}\s{1}\d{4})", html)
-                time = re.findall("(\s{1}\d{2}\:\d{2})", html)
-               # SHIP
-#                temp_ship = re.findall('(?<=td data-label="Vessel">\r\s).*?(.*)', html)[-1].lstrip()
-                temp_ship = re.findall('(?<=td data-label="Vessel">\n).*?(.*)', html)[-1].lstrip()
-#                print temp_ship
-                if temp_ship.startswith('<'):
-                    ship = temp_ship.split('>')[1].split('<')[0]
-                else:
-                    ship = temp_ship
-               # VOYAGE
-                voyage = re.findall('(?<=VoyageReference=).*?(?=")', html)[-1]
-               # TERMINAL
-#                terminal = re.findall('(?<=td data-label="Location">\r\s).*?(.*)', html)[-1].lstrip()
-                terminal = re.findall('(?<=td data-label="Location">\n).*?(.*)', html)[-1].lstrip()
+            try:
+                temp[1] = driver.find_element_by_xpath("/html/body/div[3]/div[1]/div/h1/span/span/abbr").get_attribute("innerHTML").split(" ")[0]
+            except:
+                temp[1] = "---"
 
-                results.append( [i, size,  date[-1], time[-1], ship, voyage, terminal, "CMA CGM"] )
+            try:
+#            if True:
+                row = driver.find_element_by_xpath("(//table/tbody/tr)[last()]")
+                col = row.find_elements_by_css_selector('td')
+                count = 0
+                for c in col:
+                    t = c.get_attribute("innerHTML").lstrip()
+#                    print( str(count)+":\n"+ t)
+                   # DATE & TIME
+                    if count == 0:
+                        r = t.split(" ")
+                        temp[2] = r[1] +" "+ r[2] +" "+ r[3]
+                        temp[3] = r[4] + r[5]
+                   # SHIP
+                    if count == 4:
+                        temp[4] = t
+                   # VOYAGE
+                    if count == 5:
+                        temp[5] = t.split(">")[1].split("<")[0]
+                    if count == 3:
+                        temp[6] = t
+                    count += 1
+#                print("DATI par "+i+"\n")
+                results.append( temp )
                 with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
                   json.dump(results, outfile)
-
 
             except:
-                results.append( [i, "-", "-", "-", "-", "-", "-", "CMA CGM"] )
+                results.append( temp )
                 with open("/www/kuvalda/static/cont/results.json", 'wb') as outfile:
                   json.dump(results, outfile)
 
-#    print results
+    driver.quit()
 
-#cma_search( ["TGHU9419192", "CMAU0408640", "TLLU4266016"] )
+   # kill resuming proceses
+    os.system("killall -v firefox > /dev/null 2>&1 || true")
+    pauze.sleep(1)
+    os.system("killall -v geckodriver > /dev/null 2>&1 || true")
+
+
+
+#cma_search( ["APHU6931774", "BMOU6577497", "TEMU5310771"] )
+#cma_search( ["BMOU6577497"] )

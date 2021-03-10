@@ -20,7 +20,7 @@ var lastSearch = [];
 function runProgress() { progressbar = setInterval( function(){ progress() }, 2000 ); }
 
 function getJson() {
-  $.post( "http://www.kuvalda.lv/container.json", new Date(), function(data, textStatus ) {
+  $.post( "https://www.kuvalda.lv/container.json", new Date(), function(data, textStatus ) {
     $.each(data, function(index, element) {
       lastSearch.push( element );
     });
@@ -29,11 +29,11 @@ function getJson() {
 }
 
 function progress() { 
-  $.post( "http://www.kuvalda.lv/progress.json", new Date(), function(data, textStatus ) {
+  $.post( "https://www.kuvalda.lv/progress.json", new Date(), function(data, textStatus ) {
     $.each( data, function( key, val ) {
       $("#progressBar").html( val + "%" ); $("#progressBar").css("width", val + "%");
       items = []; var temp = resultCount;
-        $.post( "http://www.kuvalda.lv/results.json", new Date(), function(data, textStatus ) {
+        $.post( "https://www.kuvalda.lv/results.json", new Date(), function(data, textStatus ) {
           data.forEach(function(el) {
             resultCount++;
             items.push( "<tr><td>"+ el[0] +"</td><td>"+ el[1] +"</td><td>"+ el[2] +"</td><td>"+ el[3] +"</td><td>"+ el[4] +"</td><td>"+ el[5] +"</td><td>"+ el[6] +"</td><td>"+ el[7] +"</td></tr>" );
@@ -49,7 +49,7 @@ $(document).ready(function(){
   getJson(); runProgress(); if ( $("#progressBar").css("width") != 100 ) { $("#submitSearch").prop('disabled', 'disabled'); }
   $("#submitSearch").click(function(){
     $("#searchData").empty(); 
-    $.post("http://www.kuvalda.lv/container.php", {
+    $.post("https://www.kuvalda.lv/container.php", {
       company: $("input[name=comp]:checked", "#myForm").val(), data: $("#search").val(), date: moment().format('YYYY-MM-DD HH:mm:ss') },
         function(data,status){
           $("#searchData").append( "<b>kompānija:</b> " +
@@ -64,7 +64,7 @@ $(document).ready(function(){
 
   $("#searchRestart").click(function(){
     $("#searchData").empty(); 
-    $.post("http://www.kuvalda.lv/container.php", {
+    $.post("https://www.kuvalda.lv/container.php", {
       company: lastSearch[0], data: lastSearch[1], date: moment().format('YYYY-MM-DD HH:mm:ss') },
         function(data,status){
           $("#searchData").append( "<b>kompānija:</b> " + lastSearch[0] + "<br><b>konteineri:</b><br>" +

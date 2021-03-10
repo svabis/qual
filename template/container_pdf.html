@@ -18,14 +18,14 @@ var items = [];
 function runProgress() { progressbar = setInterval( function(){ progress() }, 5000 ); }
 
 function progress() { 
-  $.post( "http://www.kuvalda.lv/pdf_progress.json", {
+  $.post( "https://www.kuvalda.lv/pdf_progress.json", {
     data: new Date(), 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value },
     function(data, textStatus ) {
       $.each( data, function( key, val ) { $("#progressBar").html( val + "%" ); $("#progressBar").css("width", val + "%");
 
         if (val == 100) {
           clearInterval(progressbar); $("#submitSearch").removeAttr('disabled'); items = [];
-          $.post( "http://www.kuvalda.lv/pdf_results.json", {
+          $.post( "https://www.kuvalda.lv/pdf_results.json", {
             data: new Date(), 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value },
             function(data, textStatus ) {
               data.forEach(function(el) {
@@ -47,7 +47,7 @@ $(document).ready(function(){
 
   $("#submitSearch").click(function(){
     $("#searchData").empty(); 
-    $.post("http://www.kuvalda.lv/pdf_container.php", {
+    $.post("https://www.kuvalda.lv/pdf_container.php", {
       data: "PROCESS", date: moment().format('YYYY-MM-DD HH:mm:ss'), 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value },
         function(data,status){
           $("#searchData").append( moment().format('YYYY-MM-DD HH:mm') +"<br>");
@@ -61,7 +61,7 @@ $(document).ready(function(){
 
   $("#clear").click(function(){
     $("#searchData").empty(); 
-    $.post("http://www.kuvalda.lv/pdf_container.php", {
+    $.post("https://www.kuvalda.lv/pdf_container.php", {
       data: "RESET", date: moment().format('YYYY-MM-DD HH:mm:ss'), 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value },
         function(data,status){
           $("#searchData").empty(); 

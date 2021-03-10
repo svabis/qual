@@ -1,0 +1,79 @@
+{% extends 'map_main.html' %}
+
+{% block style %}
+
+ #map-div { position: absolute; z-index:0; top:5px; }
+{# #osm-map { background-color: lightblue; height:4600px; width:7900px; z-index:0; } #}
+{# #osm-map { background-color: lightblue; height:9933px; width:14043px; z-index:0; } #}
+ #osm-map { background-color: lightblue; height:84.1cm; width:118.9cm; z-index:0; margin:0px; }
+
+
+{% endblock %}
+
+
+
+{% block javascript %}
+ <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+ <link href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" rel="stylesheet"/>
+
+<script>
+{# <!-- POINT IMAGE PREVIEW --> #}
+function imgPrev(val){ $("#ImageModal").modal("show"); $("#img_preview").attr("src", val); console.log(val); }
+
+{# <!-- "Starting GPS coordinates" --> #}
+var map;
+{# <!-- starting latitude/longitude --> #}
+var xy = ['{{ city.lat }}', '{{ city.lon }}']; 
+{# <!-- starting zoom --> #}
+let zoom = 17; //{{ city.zoom }};
+{# <!-- Marker--> #}
+var taget;
+
+{# <!--"MAP __init__" --> #}
+function showMap(val) {
+ {# <!--"RESET MAP IF NEEDED" --> #}
+  try { map.remove(); } catch (err) {}
+  var element = document.getElementById("osm-map"); map = L.map(element, {zoomControl:false});
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { maxZoom: 17, minZoom: 17,
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  var temp_target = L.latLng( val ); map.setView(temp_target, zoom);
+//  target = L.marker(temp_target).addTo(map);
+
+{# <OUTPUTS NO DB> #}
+{% for d in data %}
+
+//  var temp = new L.circleMarker([ '{{d.lat}}' , '{{d.lon}}' ],{ radius: {{ d.radio.size }}*2.2, stroke: true, color: '{{ d.radio.color }}', opacity: 1, weight: 2, fill: true, fillColor: '{{ d.radio.color }}', fillOpacity: 0.5}).addTo(map);
+  var temp = L.circle( [ '{{d.lat}}' , '{{d.lon}}' ], {color:'{{ d.radio.color }}', fillColor:'{{ d.radio.color }}', fillOpacity:0.5, radius:{{ d.radio.size }}}).addTo(map);
+
+{% if edit %}{% else %}
+{% if mobile_browser == False and tablet_browser == False %}
+  temp.bindTooltip( "{{ d.mark }}" );
+{% endif %}
+  var text = "<center><a href='/mapplot/plot/{{d.id}}/'><b>{{ d.mark }}</b></a><br>{{ d.radio.name }}<br>{%if d.chk_1%}OLD<br>{%endif%}{%if d.chk_2%}LED<br>{%endif%}{%if d.chk_3%}Console<br>{%endif%}";
+{% for i in d.image.all %} text += " <span class='glyphicon glyphicon-paperclip' onclick='imgPrev(&#39; {{ i.image.url|safe }} &#39;);'></span> "; {% endfor %}
+  text = text + "</center>";
+  temp.bindPopup( text );
+{% endif %}{% endfor %}
+
+{# <Click, move, zoom events> #}
+  map.dragging.disable();
+  map.on('click', function(e) { });
+  map.on('move', function(e) { });
+  map.on('zoom', function() { });
+}
+
+$(document).ready(function () { showMap( xy ); });
+</script>
+{% endblock %}
+
+
+
+{% block content %}
+{# <!--PAGE CONTENT START--> #}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="map-div">
+  <center><div id="osm-map"></div></center>
+</div>
+{# <!--PAGE CONTENT END--> #}
+{% endblock %}
+

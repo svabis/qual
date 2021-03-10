@@ -87,4 +87,8 @@ def logout(request):
 
     response = redirect('/')
     response.delete_cookie('cam_type')
+    try:
+        response.delete_cookie('city')
+    except:
+        pass
     return response

@@ -1,0 +1,54 @@
+{% extends 'main.html' %}
+
+
+{% block style %}
+hr { margin-top: 10px; margin-bottom: 10px; }
+.city { margin-bottom: 5px; border-color: black; }
+.btn { color:black; }
+{% endblock %}
+
+
+{% block mapplot %}
+<div class="container" style="margin-top: 20px;">
+ <b>Pilsētas:</b>
+ <hr>
+ {% for c in city_data %}
+ <a target="_blank" href="/mapplot/city_edit/{{ c.id }}/">
+  <button class="btn city"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ c.name }}</button></a>
+ {% endfor %}
+ <a target="_blank" href="/mapplot/city_add/">
+  <button class="btn btn-warning city"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Pievienot</button></a>
+ <hr>
+
+ <b>Lietotājs <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Pilsēta:</b>
+ <hr>
+ {% for data in user_data %}{% for u in data %}
+  <button class="btn city {% if u.1 %}btn-success{% endif %}">
+   <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+   {{ u.0.user.username }} <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+   <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{ u.0.city }}</button>
+ {% endfor %}<br>{% endfor %}
+ <hr>
+
+ <b>Pilsētu datu exprts (.xls):</b><br>
+{# <hr> #}
+ {% for c in city_data %}
+ <a href="/mapplot/city_export_xls/{{ c.id }}/">
+  <button class="btn btn-warning city"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> {{ c.name }}</button></a>
+ {% endfor %}
+ <hr>
+
+{# <b>Pilsētu datu exprts (.csv):</b><br> #}
+{# <hr> #}
+{# {% for c in city_data %} #}
+{# <a href="/mapplot/city_export_csv/{{ c.id }}/"> #}
+{#  <button class="btn btn-warning city"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>{{ c.name }}</button></a> #}
+{# {% endfor %} #}
+
+ <hr>
+ <a href="/mapplot/city_export_pdf/1/">
+  <button class="btn btn-warning city"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> TEST</button></a>
+
+
+</div>
+{% endblock %}

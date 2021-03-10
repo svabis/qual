@@ -39,12 +39,14 @@ $(document).ready(function () {
     function(){
       console.log( $(this) );
       var temp = $(this).attr('src');
-      temp = temp.replace("galery/", "galery/_");
+//      temp = temp.replace("galery/", "galery/_");
+      temp = temp.replace("galery/", "galery/");
       $(this).attr("src",temp);
     },
     function(){
       var temp = $(this).attr('src');
-      temp = temp.replace("galery/_", "galery/");
+//      temp = temp.replace("galery/_", "galery/");
+      temp = temp.replace("galery/", "galery/");
       $(this).attr("src",temp);
   });
 });
